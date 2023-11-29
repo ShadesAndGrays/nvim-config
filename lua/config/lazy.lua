@@ -1,6 +1,6 @@
 local plugins = {
-	
-	--{import = "plugins"}
+    --{ "LazyVim/LazyVim", import = "lazyvim.plugins" },
+	{import = "plugins"}
 }
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -17,4 +17,3 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup(plugins, opts)
-print("Hello from lazy.lua")

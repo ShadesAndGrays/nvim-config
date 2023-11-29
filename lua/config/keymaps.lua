@@ -1,5 +1,3 @@
-print("Hello from key maps")
-
 vim.g.mapleader = " "
 
 
