@@ -9,7 +9,7 @@ return{
             "MunifTanjim/nui.nvim",
         },
         config = function()
-            kmap("n","<C-n>", "<cmd>Neotree<CR>",{})
+            kmap("n","<C-n>", "<cmd>Neotree toggle<CR>",{})
         end
 
         

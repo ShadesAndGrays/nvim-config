@@ -6,7 +6,7 @@ print("Hello from lua.init.lua")
 
 -- Look and feel
 require("catppuccin").load()
---require("lualine").setup()
+require("lualine").setup()
 
 vim.opt.number = true
 vim.opt.signcolumn = "yes" -- show the sign column always
@@ -46,3 +46,4 @@ vim.opt.softtabstop = 4 -- <Tab> behaves as 4 spaces when editing
 -- General settings
 vim.g.autoread = true
 vim.g.noswapfile = true
+vim.opt.signcolumn = "yes"
