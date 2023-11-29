@@ -5,7 +5,7 @@ return {{
         
         FloatingTerm = require('FTerm')
 
-        kmap("n", "`", "<cmd>lua FloatingTerm.toggle()<CR>", {}) 
+        kmap("n", "c", "<cmd>lua FloatingTerm.toggle()<CR>", {}) 
 
     end
     }}

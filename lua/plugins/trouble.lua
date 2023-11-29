@@ -4,6 +4,7 @@ return {{
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
         local trouble = require("trouble")
+        kmap("n", "<leader>c", "<cmd>TroubleToggle <CR>",{})
         trouble.setup{
             position = "bottom", -- position of the list can be: bottom, top, left, right
             height = 10, -- height of the trouble list when position is top or bottom

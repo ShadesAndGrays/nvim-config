@@ -8,6 +8,7 @@ print("Hello from lua.init.lua")
 require("catppuccin").load()
 require("lualine").setup()
 
+
 vim.opt.number = true
 vim.opt.signcolumn = "yes" -- show the sign column always
 vim.opt.list = true -- show list chars
@@ -47,3 +48,16 @@ vim.opt.softtabstop = 4 -- <Tab> behaves as 4 spaces when editing
 vim.g.autoread = true
 vim.g.noswapfile = true
 vim.opt.signcolumn = "yes"
+
+
+
+-- INIT
+require("mason").setup(
+{ ui = {
+        icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+        }
+    }
+}) -- starting LSP Manager
