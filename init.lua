@@ -1,9 +1,6 @@
 require("config.keymaps")
 require("config.lazy")
 
-print("Hello from lua.init.lua")
-
-
 -- Look and feel
 require("catppuccin").load()
 require("lualine").setup()
@@ -48,16 +45,7 @@ vim.opt.softtabstop = 4 -- <Tab> behaves as 4 spaces when editing
 vim.g.autoread = true
 vim.g.noswapfile = true
 vim.opt.signcolumn = "yes"
+vim.opt.clipboard = 'unnamedplus'
+-- configuring LSP
 
-
-
--- INIT
-require("mason").setup(
-{ ui = {
-        icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗"
-        }
-    }
-}) -- starting LSP Manager
+require("config.lsp_config")
