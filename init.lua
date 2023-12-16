@@ -48,4 +48,4 @@ vim.opt.signcolumn = "yes"
 vim.opt.clipboard = 'unnamedplus'
 -- configuring LSP
 
-require("config.lsp_config")
+--require("config.lsp_config")
