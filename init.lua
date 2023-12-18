@@ -1,11 +1,12 @@
 require("config.keymaps")
 require("config.lazy")
+require("config.whichkey")
 
 -- Look and feel
 require("catppuccin").load()
 require("lualine").setup()
 
-
+vim.cmd([[au BufNewFile,BufRead *.v set filetype=vlang]])
 vim.opt.number = true
 vim.opt.signcolumn = "yes" -- show the sign column always
 vim.opt.list = true -- show list chars
