@@ -22,7 +22,7 @@ local mappings = {
             f = {"<cmd>Telescope find_files<cr>","Find File"},
             g = {"<cmd>Telescope live_grep<cr>","Live Grep"},
             s = {"<cmd>Telescope git_status<cr>","Git Status"},
-            b = {"New buffer"},
+            b = {"<cmd>Telescope buffers<cr>","buffers"},
 
 
         },
