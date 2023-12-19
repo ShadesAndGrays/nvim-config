@@ -86,20 +86,30 @@ end
 
                 }},
                 {'cmake'},
-                {'rust_analyzer'},
-                {'vls'}
+                
+                {'vls',
+                {
+                    cmd = {'vls'},
+                    filetypes = {'v','vlang','vv'},
+                    root_dir = nvim_lsp.util.root_pattern("v.mod", ".git")
+                }
             }
+        }
 
-            -- Setup each language server
-            for _, server in ipairs(servers) do
-                local lsp,conf  = unpack(server)
-                common_setup(lsp,conf)
-            end
-
-
-
-
+        -- Setup each language server
+        for _, server in ipairs(servers) do
+            local lsp,conf  = unpack(server)
+            common_setup(lsp,conf)
         end
-    },
+
+
+        nvim_lsp.rust_analyzer.setup({
+            cmd = {' /usr/bin/rust-analyzer'},
+            capabilities =  require('cmp_nvim_lsp').default_capabilities()
+
+        })
+
+    end
+},
 }
 
