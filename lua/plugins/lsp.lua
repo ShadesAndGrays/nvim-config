@@ -104,7 +104,7 @@ end
 
 
         nvim_lsp.rust_analyzer.setup({
-            cmd = {' /usr/bin/rust-analyzer'},
+            cmd = {'/usr/bin/rust-analyzer'},
             capabilities =  require('cmp_nvim_lsp').default_capabilities()
 
         })
