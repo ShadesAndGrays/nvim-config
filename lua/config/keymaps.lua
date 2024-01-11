@@ -12,9 +12,11 @@ function test()
 	print("test1")
 end
 
-kmap("n","<Leader>`", "<cmd>lua test()<CR>",no_opts )
-kmap("n", "<Leader><Enter>", "<cmd> exe 'normal a'.nr2char(getchar())<CR><CR>",opts) -- remmaping enter to newline in normalmode
 
+kmap("n","<Leader>`", "<cmd>lua test()<CR>",no_opts )
+
+kmap('n', '<CR>', 'm`o<Esc>``',opts)
+kmap('n', '<S-CR>', 'm`O<Esc>``',opts)
 kmap("n", "<Up>","g<Up>",no_opts) -- move up even if line wrapped
 kmap("n", "<Down>","g<Down>",no_opts) -- move down even if line wrapped
 

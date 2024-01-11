@@ -6,6 +6,9 @@ require("config.whichkey")
 require("catppuccin").load()
 require("lualine").setup()
 
+
+require("autoclose").setup()
+
 vim.cmd([[au BufNewFile,BufRead *.v set filetype=vlang]])
 vim.opt.number = true
 vim.opt.signcolumn = "yes" -- show the sign column always
