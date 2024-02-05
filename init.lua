@@ -5,10 +5,11 @@ require("config.whichkey")
 -- Look and feel
 require("catppuccin").load()
 require("lualine").setup()
-
-
+-- Setting up plugins
+require("ufo").setup()
 require("autoclose").setup()
-
+require("auto-save").setup()
+ 
 vim.cmd([[au BufNewFile,BufRead *.v set filetype=vlang]])
 vim.opt.number = true
 vim.opt.signcolumn = "yes" -- show the sign column always
@@ -46,10 +47,7 @@ vim.opt.tabstop = 4 -- <Tab> appears as 4 spaces
 vim.opt.softtabstop = 4 -- <Tab> behaves as 4 spaces when editing
 
 -- General settings
-vim.g.autoread = true
-vim.g.noswapfile = true
-vim.opt.signcolumn = "yes"
-vim.opt.clipboard = 'unnamedplus'
--- configuring LSP
-
---require("config.lsp_config")
+vim.g.autoread = true -- sense file changes
+vim.g.noswapfile = true -- no trashy swap files
+vim.opt.clipboard = 'unnamedplus' -- save to clipboard always
+vim.o.foldenable = false -- disable folds. I'll set them myself

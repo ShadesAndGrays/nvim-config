@@ -22,7 +22,9 @@ kmap("n", "<Down>","g<Down>",no_opts) -- move down even if line wrapped
 
 kmap("n", "<M-Up>","<cmd> move -2 <CR>",opts)-- Move line up
 kmap("n","<M-Down>","<cmd> move +1<CR>",opts)-- Move line down
-
+-- Toggle Auto save
+kmap("n", "<leader>s", ":ASToggle<CR>", {})
+kmap("n","<C-U>", ":UndotreeToggle<CR>",opts)
 --kmap ("v", "<M-Up>", "<cmd> '<,'> move -2 <CR>",opts) -- move selecion up
 --kmap ("v", "<M-Down>", "<cmd> '<,'> move +1 <CR>",opts) -- move selecion up
 
