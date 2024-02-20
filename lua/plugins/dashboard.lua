@@ -3,9 +3,9 @@ return {
         'nvimdev/dashboard-nvim',
         event = 'VimEnter',
         dependencies = { {'nvim-tree/nvim-web-devicons'}},
-
+--        enabled = false,
         config = function()
-            header7 = {
+            local header7 = {
                 "",
                 " ⣇⣿⠘⣿⣿⣿⡿⡿⣟⣟⢟⢟⢝⠵⡝⣿⡿⢂⣼⣿⣷⣌⠩⡫⡻⣝⠹⢿⣿⣷ ",
                 " ⡆⣿⣆⠱⣝⡵⣝⢅⠙⣿⢕⢕⢕⢕⢝⣥⢒⠅⣿⣿⣿⡿⣳⣌⠪⡪⣡⢑⢝⣇ ",
@@ -46,7 +46,7 @@ return {
 
             local dash = require("dashboard") 
             dash.setup({
-                theme = "hyper",
+--               theme = "doom",
                 config = {
                    -- header = header7,
                     week_header = {
@@ -59,6 +59,7 @@ return {
         {
           icon = ' ',
           icon_hl = '@variable',
+
           desc = 'Files',
           group = 'Label',
           action = 'Telescope find_files',

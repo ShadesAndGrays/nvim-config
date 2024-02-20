@@ -3,13 +3,14 @@ require("config.lazy")
 require("config.whichkey")
 
 -- Look and feel
-require("catppuccin").load()
+--require("gotham").load()
+
 require("lualine").setup()
 -- Setting up plugins
 require("ufo").setup()
 require("autoclose").setup()
 require("auto-save").setup()
- 
+
 vim.cmd([[au BufNewFile,BufRead *.v set filetype=vlang]])
 vim.opt.number = true
 vim.opt.signcolumn = "yes" -- show the sign column always
@@ -24,7 +25,7 @@ vim.opt.listchars = {
     multispace = "·", -- show chars if I have multiple spaces between text
     leadmultispace = " ", -- ...but don't show any when they're at the start
 }
-
+vim.cmd('colorscheme gotham256')
 vim.opt.cursorline = true
 vim.opt.laststatus = 3 -- single global statusline
 
