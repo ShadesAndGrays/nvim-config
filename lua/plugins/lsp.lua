@@ -19,7 +19,8 @@ return{
                 sources = cmp.config.sources(
                 {{name = 'nvim_lsp'}},
                 {{name = 'buffer'}},
-                {{name = 'luasnip'}}
+                {{name = 'luasnip'}},
+                {{ name = 'nvim_lsp_signature_help' }}
                 )
 
             })
@@ -31,11 +32,10 @@ return{
         "neovim/nvim-lspconfig",
         config = function()
 
-local on_attach = function(client, bufnr)
-    print('Language server attached!')
-
-    -- Your additional setup code can go here
-end
+            local on_attach = function(client, bufnr)
+                print('Language server attached!')
+                -- Your additional setup code can go here
+            end
 
 
             local cap = require('cmp_nvim_lsp').default_capabilities()
@@ -86,7 +86,7 @@ end
 
                 }},
                 {'cmake'},
-                
+
                 {'vls',
                 {
                     cmd = {'vls'},
@@ -111,5 +111,6 @@ end
 
     end
 },
+{"hrsh7th/cmp-nvim-lsp-signature-help"}
 }
 
