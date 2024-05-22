@@ -1,6 +1,8 @@
 require("config.keymaps")
 require("config.lazy")
 require("config.whichkey")
+require("config.autocommands")
+
 
 -- Look and feel
 --require("gotham").load()
@@ -10,6 +12,23 @@ require("lualine").setup()
 require("ufo").setup()
 require("autoclose").setup()
 require("auto-save").setup()
+require('Comment').setup()
+--Setting up for the web
+require'web-tools'.setup({
+  keymaps = {
+    rename = nil,  -- by default use same setup of lspconfig
+    repeat_rename = '.', -- . to repeat
+  },
+  hurl = {  -- hurl default
+    show_headers = false, -- do not show http headers
+    floating = false,   -- use floating windows (need guihua.lua)
+    json5 = false,      -- use json5 parser require json5 treesitter
+    formatters = {  -- format the result by filetype
+      json = { 'jq' },
+      html = { 'prettier', '--parser', 'html' },
+    },
+  },
+})
 
 vim.cmd([[au BufNewFile,BufRead *.v set filetype=vlang]])
 vim.opt.number = true
@@ -25,7 +44,7 @@ vim.opt.listchars = {
     multispace = "·", -- show chars if I have multiple spaces between text
     leadmultispace = " ", -- ...but don't show any when they're at the start
 }
-vim.cmd('colorscheme gotham256')
+vim.cmd('colorscheme catppuccin-mocha')
 vim.opt.cursorline = true
 vim.opt.laststatus = 3 -- single global statusline
 
@@ -52,3 +71,5 @@ vim.g.autoread = true -- sense file changes
 vim.g.noswapfile = true -- no trashy swap files
 -- vim.opt.clipboard = 'unnamedplus' -- save to clipboard always
 vim.o.foldenable = false -- disable folds. I'll set them myself
+
+vim.g.vimspector_enable_mappings = 'HUMAN'

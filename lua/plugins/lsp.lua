@@ -111,6 +111,6 @@ return{
 
     end
 },
-{"hrsh7th/cmp-nvim-lsp-signature-help"}
+{"hrsh7th/cmp-nvim-lsp-signature-help"},
 }
 

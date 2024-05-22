@@ -1,9 +1,5 @@
 return
 {{
-'nvim-lualine/lualine.nvim',
-    config = function()
-    
-
-    end
+'nvim-lualine/lualine.nvim'
 
 }}

@@ -5,36 +5,50 @@ local no_opts = {}
 local opts = {silent = true}
 
 
-kmap = vim.api.nvim_set_keymap
+Kmap = vim.api.nvim_set_keymap
 
 
-function test()
+function Test()
 	print("test1")
 end
 
 
-kmap("n","<Leader>`", "<cmd>lua test()<CR>",no_opts )
+Kmap("n","<Leader>`", "<cmd>lua Test()<CR>",no_opts )
+Kmap('n', '<CR>', 'm`o<Esc>``',opts)
+Kmap('n', '<S-CR>', 'm`O<Esc>``',opts)
+Kmap("n", "<Up>","g<Up>",no_opts) -- move up even if line wrapped
+Kmap("n", "<Down>","g<Down>",no_opts) -- move down even if line wrapped
+Kmap("n", "k","g<Up>",no_opts) -- move up even if line wrapped
+Kmap("n", "j","g<Down>",no_opts) -- move up even if line wrapped
 
-kmap('n', '<CR>', 'm`o<Esc>``',opts)
-kmap('n', '<S-CR>', 'm`O<Esc>``',opts)
-kmap("n", "<Up>","g<Up>",no_opts) -- move up even if line wrapped
-kmap("n", "<Down>","g<Down>",no_opts) -- move down even if line wrapped
-
-kmap("n", "<M-Up>","<cmd> move -2 <CR>",opts)-- Move line up
-kmap("n","<M-Down>","<cmd> move +1<CR>",opts)-- Move line down
+Kmap("n", "<M-Up>","<cmd> move -2 <CR>",opts)-- Move line up
+Kmap("n","<M-Down>","<cmd> move +1<CR>",opts)-- Move line down
 -- Toggle Auto save
-kmap("n", "<leader>s", ":ASToggle<CR>", {})
-kmap("n","<C-U>", ":UndotreeToggle<CR>",opts)
---kmap ("v", "<M-Up>", "<cmd> '<,'> move -2 <CR>",opts) -- move selecion up
---kmap ("v", "<M-Down>", "<cmd> '<,'> move +1 <CR>",opts) -- move selecion up
+Kmap("n", "<leader>s", ":ASToggle<CR>", {})
+Kmap("n","<C-U>", ":UndotreeToggle<CR>",opts)
+--Kmap ("v", "<M-Up>", "<cmd> '<,'> move -2 <CR>",opts) -- move selecion up
+--Kmap ("v", "<M-Down>", "<cmd> '<,'> move +1 <CR>",opts) -- move selecion up
 
-kmap("n", "<Leader>t", "<cmd>tabn<CR>", opts) -- Go to the next tab
-kmap("n", "<Leader>T", "<cmd>tabp<CR>",opts) -- Go to the previous tab
+Kmap("n", "<Leader>t", "<cmd>tabn<CR>", opts) -- Go to the next tab
+Kmap("n", "<Leader>T", "<cmd>tabp<CR>",opts) -- Go to the previous tab
 
-kmap("n", "<C-UP>", "3<C-y>",opts) -- scroll down more quickly
-kmap("n", "<C-DOWN>", "3<C-e>",opts) -- scroll up more quickly
+Kmap("n", "<C-UP>", "3<C-y>",opts) -- scroll down more quickly
+Kmap("n", "<C-DOWN>", "3<C-e>",opts) -- scroll up more quickly
 
-kmap("n", "<Leader><tab>", "<cmd> tabnew<CR>",opts) -- create new tab
-kmap("n", "<tab>", "<C-w>", opts)
+Kmap("n", "<Leader><tab>", "<cmd> tabnew<CR>",opts) -- create new tab
+Kmap("n", "<tab>", "<C-w>", opts)
 
-kmap("t", "<Esc><Esc>", [[<C-\><C-n>]],opts) --exit terminal mode :)
+Kmap("t", "<Esc><Esc>", [[<C-\><C-n>]],opts) --exit terminal mode :)
+
+Kmap("n", "C", "<cmd>lua FloatingTerm.toggle()<CR>", {}) --Toggle FloatingTerm
+
+Kmap("n", "<leader>c", "<cmd>TroubleToggle <CR>",{}) -- Toggle Trouble
+
+Kmap('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+Kmap('n', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+
+Kmap('n', "<leader>hH", '<cmd>lua require("precognition").toggle()<CR>', opts)
+Kmap('n', "<leader>hh", '<cmd>lua require("precognition").peek()<CR>', opts)
+
+Kmap('n','<Leader>d','<cmd>lua require("dap").breakpoint() <CR>' , opts)
+
