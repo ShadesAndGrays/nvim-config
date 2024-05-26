@@ -13,8 +13,11 @@ require("ufo").setup()
 require("autoclose").setup()
 require("auto-save").setup()
 require('Comment').setup()
+require('gitsigns').setup()
 --Setting up for the web
-require'web-tools'.setup({
+
+
+--[[ require'web-tools'.setup({
   keymaps = {
     rename = nil,  -- by default use same setup of lspconfig
     repeat_rename = '.', -- . to repeat
@@ -28,7 +31,7 @@ require'web-tools'.setup({
       html = { 'prettier', '--parser', 'html' },
     },
   },
-})
+}) ]]
 
 vim.cmd([[au BufNewFile,BufRead *.v set filetype=vlang]])
 vim.opt.number = true

@@ -1,4 +1,11 @@
 return{
+    {
+    "williamboman/mason.nvim"
+
+},{
+    "williamboman/mason-lspconfig.nvim"
+}    
+,
     {"hrsh7th/nvim-cmp",
     config =
     function()
@@ -32,83 +39,39 @@ return{
         "neovim/nvim-lspconfig",
         config = function()
 
+            local nvim_lsp = require("lspconfig")
+            local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
             local on_attach = function(client, bufnr)
-                print('Language server attached!')
+                print('Language server attached!, buffer number: ', bufnr, " client: ", client.name)
                 -- Your additional setup code can go here
             end
-
-
-            local cap = require('cmp_nvim_lsp').default_capabilities()
-            local nvim_lsp = require("lspconfig")
 
             -- Common setup function
             local function common_setup(server, config)
                 nvim_lsp[server].setup(vim.tbl_extend('force', {
                     on_attach = on_attach,
-                    capabilities = cap,
+                    capabilities = capabilities,
                 }, config or {}))
             end
 
             local servers = {
-                {'tsserver'},
+                require("../config/lsp_configs/cpp"),
+                require("../config/lsp_configs/rust"),
+                require("../config/lsp_configs/tsserver"),
+                require("../config/lsp_configs/vlang"),
+                require("../config/lsp_configs/lua_ls"),
                 {'html'},
                 {'cssls'},
-                {'lua_ls',
-                {
-                    settings = {
-                        Lua = {
-                            runtime = {
-                                version = 'LuaJIT',
-                                path = vim.split(package.path, ';'), -- Use appropriate path separator
-                            },
-                            completion = {
-                                callSnippet = 'Replace',
-                            },
-                            diagnostics = {
-                                enable = true,
-                                globals = { 'vim', 'use' },
-                            },
-                            workspace = {
-                                library = vim.api.nvim_get_runtime_file('', true),
-                                maxPreload = 10000,
-                                preloadFileSize = 10000,
-                            },
-                            telemetry = { enable = false },
-                        },
-                    },
-                }},
                 {'pyright'},
-                {'clangd',{
-
-                    cmd = { 'clangd', '--compile-commands-dir=build' },
-                    filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
-                    root_dir = nvim_lsp.util.root_pattern('compile_commands.json', '.git'),
-
-                }},
                 {'cmake'},
-
-                {'vls',
-                {
-                    cmd = {'vls'},
-                    filetypes = {'v','vlang','vv'},
-                    root_dir = nvim_lsp.util.root_pattern("v.mod", ".git")
-                }
-            }
-        }
+           }
 
         -- Setup each language server
         for _, server in ipairs(servers) do
             local lsp,conf  = unpack(server)
             common_setup(lsp,conf)
         end
-
-
-        nvim_lsp.rust_analyzer.setup({
-            cmd = {'/usr/bin/rust-analyzer'},
-            capabilities =  require('cmp_nvim_lsp').default_capabilities()
-
-        })
-
     end
 },
 {"hrsh7th/cmp-nvim-lsp-signature-help"},
