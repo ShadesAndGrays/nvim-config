@@ -1,11 +1,4 @@
 return{
-    {
-    "williamboman/mason.nvim"
-
-},{
-    "williamboman/mason-lspconfig.nvim"
-}    
-,
     {"hrsh7th/nvim-cmp",
     config =
     function()
@@ -25,9 +18,9 @@ return{
                 ,
                 sources = cmp.config.sources(
                 {{name = 'nvim_lsp'}},
+                {{ name = 'nvim_lsp_signature_help' }},
                 {{name = 'buffer'}},
-                {{name = 'luasnip'}},
-                {{ name = 'nvim_lsp_signature_help' }}
+                {{name = 'luasnip'}}
                 )
 
             })
@@ -61,10 +54,12 @@ return{
                 require("../config/lsp_configs/tsserver"),
                 require("../config/lsp_configs/vlang"),
                 require("../config/lsp_configs/lua_ls"),
+                {'rubocop'},
                 {'html'},
                 {'cssls'},
                 {'pyright'},
                 {'cmake'},
+                {'fortls'}
            }
 
         -- Setup each language server
