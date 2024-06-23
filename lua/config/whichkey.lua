@@ -1,4 +1,5 @@
-local wk = require("which-key")
+--local wk = require("which-key")
+
 -- As an example, we will create the following mappings:
 --  * <leader>ff find files
 --  * <leader>fr show recent files
@@ -36,6 +37,6 @@ local mappings = {
 
     },
 }
-local opts = {}
-wk.register(mappings,opts)
+--local opts = {}
+--wk.register(mappings,opts)
 

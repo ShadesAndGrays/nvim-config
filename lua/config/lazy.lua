@@ -1,4 +1,5 @@
 local plugins = {
+
     --{ "LazyVim/LazyVim", import = "lazyvim.plugins" },
 	{import = "plugins"}
 }

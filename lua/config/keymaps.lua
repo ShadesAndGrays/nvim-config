@@ -25,15 +25,12 @@ Kmap("n", "<M-Up>","<cmd> move -2 <CR>",opts)-- Move line up
 Kmap("n","<M-Down>","<cmd> move +1<CR>",opts)-- Move line down
 -- Toggle Auto save
 Kmap("n", "<leader>s", ":ASToggle<CR>", {})
-Kmap("n","<C-U>", ":UndotreeToggle<CR>",opts)
+Kmap("n","<leader>u", ":UndotreeToggle<CR>",opts)
 --Kmap ("v", "<M-Up>", "<cmd> '<,'> move -2 <CR>",opts) -- move selecion up
 --Kmap ("v", "<M-Down>", "<cmd> '<,'> move +1 <CR>",opts) -- move selecion up
 
-Kmap("n", "<Leader>t", "<cmd>tabn<CR>", opts) -- Go to the next tab
-Kmap("n", "<Leader>T", "<cmd>tabp<CR>",opts) -- Go to the previous tab
-
-Kmap("n", "<C-UP>", "3<C-y>",opts) -- scroll down more quickly
-Kmap("n", "<C-DOWN>", "3<C-e>",opts) -- scroll up more quickly
+Kmap("n", "<C-k>", "3<C-y>",opts) -- scroll down more quickly
+Kmap("n", "<C-j>", "3<C-e>",opts) -- scroll up more quickly
 
 Kmap("n", "<Leader><tab>", "<cmd> tabnew<CR>",opts) -- create new tab
 Kmap("n", "<tab>", "<C-w>", opts)
@@ -47,8 +44,9 @@ Kmap("n", "<leader>c", "<cmd>TroubleToggle <CR>",{}) -- Toggle Trouble
 Kmap('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 Kmap('n', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 
-Kmap('n', "<leader>hH", '<cmd>lua require("precognition").toggle()<CR>', opts)
-Kmap('n', "<leader>hh", '<cmd>lua require("precognition").peek()<CR>', opts)
 
-Kmap('n','<Leader>d','<cmd>lua require("dap").breakpoint() <CR>' , opts)
+Kmap('n',[[<leader>\]],'<cmd>belowright vsp<CR>',opts)
+Kmap('n',[[<leader>-]],'<cmd>belowright sp<CR>',opts)
 
+
+Kmap('n',"<leader>d",'<cmd>Dashboard<CR>',opts)

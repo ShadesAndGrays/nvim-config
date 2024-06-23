@@ -9,9 +9,9 @@ require("config.autocommands")
 
 require("lualine").setup()
 -- Setting up plugins
-require("ufo").setup()
+-- require("ufo").setup()
 require("autoclose").setup()
-require("auto-save").setup()
+-- require("auto-save").setup()
 require('Comment').setup()
 require('gitsigns').setup()
 --Setting up for the web
@@ -47,7 +47,7 @@ vim.opt.listchars = {
     multispace = "·", -- show chars if I have multiple spaces between text
     leadmultispace = " ", -- ...but don't show any when they're at the start
 }
-vim.cmd('colorscheme catppuccin-mocha')
+vim.cmd('colorscheme habamax')
 vim.opt.cursorline = true
 vim.opt.laststatus = 3 -- single global statusline
 
@@ -76,3 +76,4 @@ vim.g.noswapfile = true -- no trashy swap files
 vim.o.foldenable = false -- disable folds. I'll set them myself
 
 vim.g.vimspector_enable_mappings = 'HUMAN'
+

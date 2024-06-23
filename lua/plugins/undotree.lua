@@ -1,3 +1,6 @@
-return{{
-'mbbill/undotree'
-}}
+
+
+return { {
+  'mbbill/undotree', -- Plugin name
+  lazy=true
+} }

@@ -54,11 +54,11 @@ return{
                 require("../config/lsp_configs/tsserver"),
                 require("../config/lsp_configs/vlang"),
                 require("../config/lsp_configs/lua_ls"),
+                require("../config/lsp_configs/cmake"),
                 {'rubocop'},
                 {'html'},
                 {'cssls'},
                 {'pyright'},
-                {'cmake'},
                 {'fortls'}
            }
 
