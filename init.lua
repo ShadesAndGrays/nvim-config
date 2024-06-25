@@ -11,7 +11,7 @@ require("lualine").setup()
 -- Setting up plugins
 -- require("ufo").setup()
 require("autoclose").setup()
--- require("auto-save").setup()
+require("trouble").setup()
 require('Comment').setup()
 require('gitsigns').setup()
 --Setting up for the web
