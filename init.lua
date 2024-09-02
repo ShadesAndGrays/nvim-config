@@ -14,10 +14,11 @@ require("autoclose").setup()
 require("trouble").setup()
 require('Comment').setup()
 require('gitsigns').setup()
+
 --Setting up for the web
 
 
---[[ require'web-tools'.setup({
+require'web-tools'.setup({
   keymaps = {
     rename = nil,  -- by default use same setup of lspconfig
     repeat_rename = '.', -- . to repeat
@@ -31,7 +32,21 @@ require('gitsigns').setup()
       html = { 'prettier', '--parser', 'html' },
     },
   },
-}) ]]
+})
+
+require('nvim-ts-autotag').setup({
+  opts = {
+    -- Defaults
+    enable_close = true, -- Auto close tags
+    enable_rename = true, -- Auto rename pairs of tags
+    enable_close_on_slash = false -- Auto close on trailing </
+  },
+  -- Also override individual filetype configs, these take priority.
+  -- Empty by default, useful if one of the "opts" global settings
+  -- doesn't work well in a specific filetype
+  per_filetype = {
+  }
+})
 
 vim.cmd([[au BufNewFile,BufRead *.v set filetype=vlang]])
 vim.opt.number = true
@@ -47,7 +62,7 @@ vim.opt.listchars = {
     multispace = "·", -- show chars if I have multiple spaces between text
     leadmultispace = " ", -- ...but don't show any when they're at the start
 }
-vim.cmd('colorscheme habamax')
+vim.cmd('colorscheme catppuccin-mocha')
 vim.opt.cursorline = true
 vim.opt.laststatus = 3 -- single global statusline
 
@@ -72,8 +87,29 @@ vim.opt.softtabstop = 4 -- <Tab> behaves as 4 spaces when editing
 -- General settings
 vim.g.autoread = true -- sense file changes
 vim.g.noswapfile = true -- no trashy swap files
--- vim.opt.clipboard = 'unnamedplus' -- save to clipboard always
 vim.o.foldenable = false -- disable folds. I'll set them myself
 
 vim.g.vimspector_enable_mappings = 'HUMAN'
+
+-- Setting nvim tree
+-- disable netrw at the very start of your init.lua
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- OR setup with some options
+require("nvim-tree").setup({
+  sort = {
+    sorter = "case_sensitive",
+  },
+  view = {
+    width = 30,
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})
+
 

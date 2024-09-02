@@ -55,11 +55,14 @@ return{
                 require("../config/lsp_configs/vlang"),
                 require("../config/lsp_configs/lua_ls"),
                 require("../config/lsp_configs/cmake"),
+                require("../config/lsp_configs/solidity"),
+                {'gdscript'},
                 {'rubocop'},
                 {'html'},
                 {'cssls'},
                 {'pyright'},
-                {'fortls'}
+                {'fortls'},
+                {'gopls'},
            }
 
         -- Setup each language server
@@ -70,5 +73,7 @@ return{
     end
 },
 {"hrsh7th/cmp-nvim-lsp-signature-help"},
+{"mfussenegger/nvim-dap"},
 }
+
 

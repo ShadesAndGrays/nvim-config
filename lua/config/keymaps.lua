@@ -54,3 +54,4 @@ Kmap('n',"<leader>d",'<cmd>Dashboard<CR>',opts)
 Kmap('n',"<leader>n","<cmd>bn<CR>",opts)
 Kmap('n',"<leader>p","<cmd>bp<CR>",opts)
 
+Kmap("n","<leader>ft", ":NvimTreeToggle<CR>",opts)
