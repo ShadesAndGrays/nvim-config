@@ -7,19 +7,8 @@ return {
     },
 
     config = function()
-         require('telescope').setup({
-        --     defaults = {
-        --         -- Default configuration for telescope goes here:
-        --         -- config_key = value,
-        --         mappings = {
-        --             i = {
-        --                 -- map actions.which_key to <C-h> (default: <C-/>)
-        --                 -- actions.which_key shows the mappings for your picker,
-        --                 -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-        --                 ["<C-h>"] = "which_key"
-        --             }
-        --         }
-        --     },
+        local telescope = require('telescope')
+         telescope.setup({
             pickers = {
                 find_files = {
                     theme = "ivy",
@@ -35,14 +24,29 @@ return {
                     theme = "dropdown",
                 }
             },
+            extensions = {
+                fzf = {}
+
+            }
         })
+
+        telescope.load_extension('fzf')
+
         local builtin = require('telescope.builtin')
 
-        Kmap('n', '<leader>fg', builtin.live_grep, {})
+        -- Kmap('n', '<leader>fg', builtin.live_grep, {}) -- replaced with multigrep
         Kmap('n', '<leader>fcc',
         function ()
             builtin.find_files{
                 cwd = vim.fn.stdpath('config')
+            }
+        end
+        , {}) -- open telescope in configuration directory
+
+        Kmap('n', '<leader>fpp',
+        function ()
+            builtin.find_files{
+                cwd = vim.fs.joinpath(vim.fn.stdpath("data"),"lazy")
             }
         end
         , {}) -- open telescope in configuration directory
@@ -53,6 +57,7 @@ return {
         Kmap('n', '<leader>fk', builtin.keymaps, {desc = "Telescope find keymap"})
         Kmap('n', '<leader>fco', builtin.commands, {desc = "Telescope find commands"}) -- I am a god now
 
+        require('config.telescope.multigrep').setup()
     end
 }
 

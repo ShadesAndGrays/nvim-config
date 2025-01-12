@@ -27,13 +27,20 @@ return{
         end
     },
     {"hrsh7th/cmp-nvim-lsp"},
-    {"L3MON4D3/LuaSnip"},
+    {"L3MON4D3/LuaSnip",
+    config = function ()
+        require("luasnip.loaders.from_vscode").lazy_load()
+    end,
+    dependencies = { "rafamadriz/friendly-snippets" }
+    },
+
     {
         "neovim/nvim-lspconfig",
         config = function()
 
             local nvim_lsp = require("lspconfig")
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
+            capabilities.textDocument.completion.completionItem.snippetSupport = true
 
             local on_attach = function(client, bufnr)
                 print('Language server attached!, buffer number: ', bufnr, " client: ", client.name)
@@ -51,7 +58,8 @@ return{
             local servers = {
                 require("../config/lsp_configs/cpp"),
                 -- require("../config/lsp_configs/rust"),
-                require("../config/lsp_configs/tsserver"),
+                require("../config/lsp_configs/emmet"),
+                require("../config/lsp_configs/ts"),
                 require("../config/lsp_configs/vlang"),
                 require("../config/lsp_configs/lua_ls"),
                 require("../config/lsp_configs/cmake"),
