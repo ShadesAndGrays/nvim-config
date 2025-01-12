@@ -5,7 +5,9 @@ return{
         local dap = require('dap')
         Kmap('n','<leader>gdc',dap.continue,{desc='Continue Debugging'})
         Kmap('n','<leader>gdb',dap.toggle_breakpoint,{desc='Toggle Breakpoint'})
+        Kmap('n','<leader>gdt',dap.terminate,{desc='Toggle end'})
 
+        -- PYTHON
         dap.configurations.python = {
             {
                 type = 'python';
@@ -16,13 +18,28 @@ return{
                     return '/usr/bin/python'
                 end;
             },}
-
-
             dap.adapters.python = {
                 type = 'executable',
                 command = 'python';
                 args = { '-m', 'debugpy.adapter' };
             }
+
+        -- GDSCRIPT
+        dap.configurations.gdscript = {
+            {
+                type = 'godot',
+                request = 'launch',
+                name = 'Launch scene',
+                project = '${workspaceFolder}',
+                launch_scene = true,
+            },}
+            dap.adapters.godot = {
+                type = "server",
+                host = "127.0.0.1",
+                port = 6006
+            }
+
+
         end},
         {"theHamsta/nvim-dap-virtual-text",
         config = function()
