@@ -50,12 +50,13 @@ return{
 
             local servers = {
                 require("../config/lsp_configs/cpp"),
-                require("../config/lsp_configs/rust"),
+                -- require("../config/lsp_configs/rust"),
                 require("../config/lsp_configs/tsserver"),
                 require("../config/lsp_configs/vlang"),
                 require("../config/lsp_configs/lua_ls"),
                 require("../config/lsp_configs/cmake"),
                 require("../config/lsp_configs/solidity"),
+                require("../config/lsp_configs/ols"),
                 {'gdscript'},
                 {'rubocop'},
                 {'html'},
@@ -63,6 +64,9 @@ return{
                 {'pyright'},
                 {'fortls'},
                 {'gopls'},
+                {'dartls'},
+                {'rust_analyzer'},
+
            }
 
         -- Setup each language server
@@ -73,7 +77,6 @@ return{
     end
 },
 {"hrsh7th/cmp-nvim-lsp-signature-help"},
-{"mfussenegger/nvim-dap"},
 }
 
 

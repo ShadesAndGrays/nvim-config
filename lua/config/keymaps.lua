@@ -5,8 +5,9 @@ local no_opts = {}
 local opts = {silent = true}
 
 
-Kmap = vim.api.nvim_set_keymap
-
+Kmap = vim.keymap.set
+-- old type
+-- Kmapv = vim.api.nvim_set_keymap
 
 function Test()
 	print("test1")
@@ -55,3 +56,10 @@ Kmap('n',"<leader>n","<cmd>bn<CR>",opts)
 Kmap('n',"<leader>p","<cmd>bp<CR>",opts)
 
 Kmap("n","<leader>ft", ":NvimTreeToggle<CR>",opts)
+
+Kmap("n","<leader>i", "<cmd>lua TOGGLE_IN_LAY()<CR>",opts)
+
+function TOGGLE_IN_LAY()
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({0}),{0}) 
+end
+

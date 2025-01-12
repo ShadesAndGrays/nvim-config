@@ -88,6 +88,7 @@ vim.opt.softtabstop = 4 -- <Tab> behaves as 4 spaces when editing
 vim.g.autoread = true -- sense file changes
 vim.g.noswapfile = true -- no trashy swap files
 vim.o.foldenable = false -- disable folds. I'll set them myself
+vim.o.spell = true -- enable spell checker
 
 vim.g.vimspector_enable_mappings = 'HUMAN'
 
@@ -113,3 +114,4 @@ require("nvim-tree").setup({
 })
 
 
+require("practice.window")
