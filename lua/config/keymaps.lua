@@ -1,4 +1,5 @@
 vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 
 local no_opts = {}
@@ -38,7 +39,10 @@ Kmap("n", "<tab>", "<C-w>", opts)
 
 Kmap("t", "<Esc><Esc>", [[<C-\><C-n>]],opts) --exit terminal mode :)
 
-Kmap("n", "C", "<cmd>lua FloatingTerm.toggle()<CR>", {}) --Toggle FloatingTerm
+-- Kmap("n", "C", "<cmd>lua FloatingTerm.toggle()<CR>", {}) --Toggle FloatingTerm
+Kmap("n", "C", function ()
+   require('toggleterm').toggle()
+end, {}) --Toggle FloatingTerm
 
 Kmap("n", "<leader>c", "<cmd>TroubleToggle <CR>",{}) -- Toggle Trouble
 
@@ -63,3 +67,9 @@ function TOGGLE_IN_LAY()
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({0}),{0}) 
 end
 
+function WHEREAMI()
+    require('scratch-buffer').open()
+    vim.api.nvim_put({vim.uv.cwd()},"",true,true)
+end
+
+Kmap("n","<C-w>z", "<cmd>ZenMode<CR>",opts)

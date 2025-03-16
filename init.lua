@@ -89,6 +89,8 @@ vim.g.autoread = true -- sense file changes
 vim.g.noswapfile = true -- no trashy swap files
 vim.o.foldenable = false -- disable folds. I'll set them myself
 vim.o.spell = true -- enable spell checker
+vim.o.more = true -- enable viewing last printed message with 'g<'
+vim.o.conceallevel = 3 -- set for concealing hidden symbols in neorg'
 
 vim.g.vimspector_enable_mappings = 'HUMAN'
 

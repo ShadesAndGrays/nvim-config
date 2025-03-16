@@ -3,5 +3,5 @@ return{{
     config = function()
         FloatingTerm = require('FTerm')
     end,
-    lazy = false
+    lazy = true
 }}

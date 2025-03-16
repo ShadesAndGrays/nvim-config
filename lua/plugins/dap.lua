@@ -3,9 +3,13 @@ return{
     {"mfussenegger/nvim-dap",
     config =  function ()
         local dap = require('dap')
+        local dapui = require("dapui")
         Kmap('n','<leader>gdc',dap.continue,{desc='Continue Debugging'})
         Kmap('n','<leader>gdb',dap.toggle_breakpoint,{desc='Toggle Breakpoint'})
-        Kmap('n','<leader>gdt',dap.terminate,{desc='Toggle end'})
+        Kmap('n','<leader>gdt',function()
+            dap.terminate()
+            dapui.close()
+        end,{desc='Toggle end'})
 
         -- PYTHON
         dap.configurations.python = {
