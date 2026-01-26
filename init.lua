@@ -2,6 +2,7 @@ require("config.keymaps")
 require("config.lazy")
 require("config.whichkey")
 require("config.autocommands")
+require("config.treesitter")
 
 
 -- Look and feel

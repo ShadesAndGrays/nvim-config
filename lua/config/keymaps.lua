@@ -35,7 +35,7 @@ Kmap("n", "<C-k>", "3<C-y>",opts) -- scroll down more quickly
 Kmap("n", "<C-j>", "3<C-e>",opts) -- scroll up more quickly
 
 Kmap("n", "<Leader><tab>", "<cmd> tabnew<CR>",opts) -- create new tab
-Kmap("n", "<tab>", "<C-w>", opts)
+-- Kmap("n", "<tab>", "<C-w>", opts)
 
 Kmap("t", "<Esc><Esc>", [[<C-\><C-n>]],opts) --exit terminal mode :)
 
