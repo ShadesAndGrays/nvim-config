@@ -39,12 +39,20 @@ Kmap("n", "<Leader><tab>", "<cmd> tabnew<CR>",opts) -- create new tab
 
 Kmap("t", "<Esc><Esc>", [[<C-\><C-n>]],opts) --exit terminal mode :)
 
--- Kmap("n", "C", "<cmd>lua FloatingTerm.toggle()<CR>", {}) --Toggle FloatingTerm
-Kmap("n", "C", function ()
-   require('toggleterm').toggle()
-end, {}) --Toggle FloatingTerm
 
-Kmap("n", "<leader>c", "<cmd>TroubleToggle <CR>",{}) -- Toggle Trouble
+
+-- Toggle Terminal
+-- Currently substituing back tick with ^ cause i'm opperating through powershell which's been configured to send "\u001e" (windows ^ , linux `)
+---- Toggle in Normal Mode
+vim.keymap.set('n', '<C-^>', '<cmd>ToggleTerm<cr>')
+
+-- Toggle in Terminal Mode (allows closing while typing in terminal)
+vim.keymap.set('t', '<C-^>', [[<C-\><C-n><cmd>ToggleTerm<cr>]])
+
+-- Toggle in Insert Mode
+vim.keymap.set('i', '<C-^>', '<cmd>ToggleTerm<cr>')
+
+
 
 Kmap('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 Kmap('n', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -61,8 +69,8 @@ Kmap('n',"<leader>p","<cmd>bp<CR>",opts)
 
 Kmap("n","<leader>ft", ":NvimTreeToggle<CR>",opts)
 
-Kmap("n","<leader>i", "<cmd>lua TOGGLE_IN_LAY()<CR>",opts)
-
+-- Toggle inlayhints
+Kmap("n","<leader>ih", "<cmd>lua TOGGLE_IN_LAY()<CR>",opts)
 function TOGGLE_IN_LAY()
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({0}),{0}) 
 end

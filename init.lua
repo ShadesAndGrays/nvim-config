@@ -100,6 +100,9 @@ vim.g.vimspector_enable_mappings = 'HUMAN'
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+-- enable inlay
+vim.lsp.inlay_hint.enable()
+
 -- OR setup with some options
 require("nvim-tree").setup({
   sort = {
