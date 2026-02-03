@@ -52,6 +52,8 @@ vim.keymap.set('t', '<C-^>', [[<C-\><C-n><cmd>ToggleTerm<cr>]])
 -- Toggle in Insert Mode
 vim.keymap.set('i', '<C-^>', '<cmd>ToggleTerm<cr>')
 
+-- Toggle 
+Kmap('n',"<leader>dd",'<cmd>Trouble diagnostics toggle<CR>',opts)
 
 
 Kmap('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -62,7 +64,7 @@ Kmap('n',[[<leader>\]],'<cmd>belowright vsp<CR>',opts)
 Kmap('n',[[<leader>-]],'<cmd>belowright sp<CR>',opts)
 
 
-Kmap('n',"<leader>d",'<cmd>Dashboard<CR>',opts)
+-- Kmap('n',"<leader>d",'<cmd>Dashboard<CR>',opts)
 
 Kmap('n',"<leader>n","<cmd>bn<CR>",opts)
 Kmap('n',"<leader>p","<cmd>bp<CR>",opts)

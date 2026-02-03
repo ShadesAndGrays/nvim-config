@@ -3,6 +3,7 @@ require("config.lazy")
 require("config.whichkey")
 require("config.autocommands")
 require("config.treesitter")
+require("config.indent")
 
 
 -- Look and feel

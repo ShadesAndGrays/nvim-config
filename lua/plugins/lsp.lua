@@ -58,7 +58,17 @@ return {
             vim.lsp.enable('clangd')
             vim.lsp.enable('lua_ls')
             vim.lsp.enable('pyright')
+            vim.lsp.enable('vtsls')
 
+            -- vim.lsp.enable('vacuum')
+            vim.lsp.enable('yamlls')
+
+             vim.filetype.add {
+               pattern = {
+                 ['openapi.*%.ya?ml'] = 'yaml.openapi',
+                 ['openapi.*%.json'] = 'json.openapi',
+               },
+             }
         end,
     },
 }
