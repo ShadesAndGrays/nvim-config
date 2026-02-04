@@ -1,6 +1,6 @@
 return {
     'nvim-telescope/telescope.nvim',
-    branch = '0.1.x',
+    version = '*',
     dependencies = {
         'nvim-lua/plenary.nvim',
         { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }
@@ -57,7 +57,7 @@ return {
         Kmap('n', '<leader>fk', builtin.keymaps, {desc = "Telescope find keymap"})
         Kmap('n', '<leader>fco', builtin.commands, {desc = "Telescope find commands"}) -- I am a god now
 
-        require('config.telescope.multigrep').setup()
+        -- require('config.telescope.multigrep').setup()
     end
 }
 
