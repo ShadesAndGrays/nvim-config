@@ -14,12 +14,13 @@ return{
             },
             diagnostics = {
                 enable = true,
-                globals = { 'vim', 'use' },
+                -- globals = { 'vim', 'use' },
             },
             workspace = {
-                library = vim.api.nvim_get_runtime_file('', true),
-                maxPreload = 10000,
-                preloadFileSize = 10000,
+                checkThirdParty = false,
+                -- library = vim.api.nvim_get_runtime_file('', true),
+                -- maxPreload = 10000,
+                -- preloadFileSize = 10000,
             },
             telemetry = { enable = false },
         },

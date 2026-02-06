@@ -56,6 +56,7 @@ return {
             vim.lsp.config('*', { capabilities = capabilities })
             -- looks into after/lsp/ directory for: 
             vim.lsp.enable('clangd')
+            vim.lsp.enable('cmake')
             vim.lsp.enable('lua_ls')
             vim.lsp.enable('pyright')
             vim.lsp.enable('vtsls')
@@ -71,4 +72,15 @@ return {
              }
         end,
     },
+
+    {
+        "folke/lazydev.nvim",
+        ft = "lua",
+        opts = {
+            library = {
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+                { path = "lazy.nvim", words = { "LazySpec" } },
+            }
+        }
+    }
 }
