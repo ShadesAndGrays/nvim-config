@@ -24,4 +24,5 @@ require('nvim-ts-autotag').setup()
 require("lazydev").setup()
 require("nvim-tree").setup()
 
+-- require("bufferline").setup()
 -- require("practice.window")

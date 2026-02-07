@@ -51,3 +51,9 @@ vim.g.loaded_netrwPlugin = 1
 
 -- enable inlay
 vim.lsp.inlay_hint.enable()
+
+-- neovide settings
+vim.g.neovide_cursor_vfx_mode = "railgun"
+
+
+-- vim.opt.winbar = "%f" -- This is a native Vim test to see if the bar appears at all

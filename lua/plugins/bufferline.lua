@@ -1,17 +1,16 @@
 return{
-    {'nvim-tree/nvim-web-devicons'}
---     {'akinsho/bufferline.nvim',
+--     {
+--     'akinsho/bufferline.nvim',
 --     version = "*",
 --     dependencies = 'nvim-tree/nvim-web-devicons',
---     config = function()
---         vim.opt.termguicolors = true
---         require("bufferline").setup
---         {
---             options = {
+--     opts = {
+--         options = {
 --             diagnostics = "nvim_lsp",
+--             seperator_style="slant",
+--             indicator = { style = 'icon' }, 
+--             show_tab_indicators = false,
 --         }
 --     }
---     end
 -- }
 }
 

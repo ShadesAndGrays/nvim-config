@@ -5,9 +5,43 @@ return{
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         opts = {
             options = {
+                globalstatus = true,
                 theme = "iceberg_dark",
                 icons_enabled = true,
+                disabled_filetypes = {
+                    winbar = { 'NvimTree', 'packer', 'alpha', 'dashboard','lazy' }, -- Don't show path on these
+                },
             },
+            winbar = {
+                lualine_c = {
+                    {
+                        'filename',
+                        path=1,
+                        shorting_target = 40,
+                        color = function(section)
+                            return { fg = vim.bo.modified and '#aa3355' or '#33aa88' , bg = nil , gui= 'bold'}
+                        end,
+                        fmt = function(res) return "     " .. res end
+                    },
+                    {
+                        'filename',
+                        path=2,
+                        shorting_target = 40,
+                        color = { fg = '#404063', bg = nil }
+                    }
+                },
+            },
+            inactive_winbar = {
+                lualine_c = {
+                    {
+                        'filename',
+                        path=1,
+                        shorting_target = 40,
+                    }
+
+                },
+            },
+
             tabline = {
                 lualine_a = {
                     {
@@ -42,6 +76,7 @@ return{
                     }
                 }},
                 lualine_z = {
+
                     {'tabs'},
                     {
                         'searchcount',
@@ -51,14 +86,6 @@ return{
                 }
             },
             sections = {
-                lualine_c = {
-                    {
-                        'filename',
-                        path=1,
-                        shorting_target = 40,
-                    }
-
-                },
                 lualine_x ={
                     'lsp_status',
                     'encoding',
@@ -66,7 +93,7 @@ return{
                     'filetype'
                 }
             },
-            extensions = {'toggleterm'}
+            extensions = {'toggleterm' , 'oil' , 'nvim-tree'}
         }
     }
 }
