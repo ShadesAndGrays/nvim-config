@@ -48,3 +48,6 @@ vim.g.vimspector_enable_mappings = 'HUMAN'
 -- disable netrw at the very start of your init.lua
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+
+-- enable inlay
+vim.lsp.inlay_hint.enable()

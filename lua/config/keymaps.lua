@@ -74,6 +74,7 @@ Kmap('n',"<leader>n","<cmd>bn<CR>",opts)
 Kmap('n',"<leader>p","<cmd>bp<CR>",opts)
 
 Kmap("n","<leader>ft", ":NvimTreeToggle<CR>",opts)
+Kmap("n","<leader>fo", "<CMD>Oil<CR>",{ desc = "Open Parent Directory"})
 
 -- Toggle inlayhints
 Kmap("n","<leader>ih", "<cmd>lua TOGGLE_IN_LAY()<CR>",opts)

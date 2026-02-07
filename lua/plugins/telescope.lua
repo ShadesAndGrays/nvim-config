@@ -1,4 +1,4 @@
-return {
+return {{
     'nvim-telescope/telescope.nvim',
     version = '*',
     dependencies = {
@@ -31,6 +31,7 @@ return {
         })
 
         telescope.load_extension('fzf')
+        telescope.load_extension('project')
 
         local builtin = require('telescope.builtin')
 
@@ -56,8 +57,16 @@ return {
         Kmap('n', '<leader>fs', builtin.spell_suggest, {desc = "Telescope spell suggest"}) -- I mess up a lot
         Kmap('n', '<leader>fk', builtin.keymaps, {desc = "Telescope find keymap"})
         Kmap('n', '<leader>fco', builtin.commands, {desc = "Telescope find commands"}) -- I am a god now
+        Kmap('n', '<leader>fp', telescope.extensions.project.project, {desc = "Telescope Project View"}) -- I am a god now
 
         require('config.telescope.multigrep').setup()
     end
+},
+{
+    'nvim-telescope/telescope-project.nvim',
+    dependencies = {
+        'nvim-telescope/telescope.nvim',
+    },
+}
 }
 
