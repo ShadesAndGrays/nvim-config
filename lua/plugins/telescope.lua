@@ -7,6 +7,7 @@ return {
             { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }
         },
 
+        -- must use config to load options cause extensions need to be loaded
         config = function()
             local telescope = require('telescope')
             telescope.setup({
@@ -16,7 +17,8 @@ return {
                         hidden = false,
                     },
                     buffers = {
-                        theme = "cursor",
+                        theme = "dropdown",
+                        hidden = false,
                     },
                     spell_suggest = {
                         theme = "cursor",
@@ -29,7 +31,7 @@ return {
                     fzf = {}
 
                 }
-            })
+        })
 
             telescope.load_extension('fzf')
             telescope.load_extension('project')
@@ -59,8 +61,15 @@ return {
             Kmap('n', '<leader>fs', builtin.spell_suggest, {desc = "Telescope spell suggest"}) -- I mess up a lot
             Kmap('n', '<leader>fk', builtin.keymaps, {desc = "Telescope find keymap"})
             Kmap('n', '<leader>fco', builtin.commands, {desc = "Telescope find commands"}) -- I am a god now
-            Kmap('n', '<leader>fp', telescope.extensions.project.project, {desc = "Telescope Project View"}) -- I am a god now
+            -- Kmap('n', '<leader>fqf', builtin.quickfix, {desc = "Telescope quick fix"})
+            Kmap('n', '<leader>fch', builtin.command_history, {desc = "Telescope find previuos commands commands"}) -- 
+            Kmap('n', '<leader>fp', telescope.extensions.project.project, {desc = "Telescope Project View"})
             Kmap("n", "<leader>fz", telescope.extensions.zoxide.list, {desc = "Find Recent directories"})
+
+            -- local actions = require("telescope.actions")
+            -- local open_with_trouble = require("trouble.sources.telescope").open
+
+            -- Kmap("n", "<leader>dd", open_with_trouble, {desc = "Find Recent directories"})
 
             require('config.telescope.multigrep').setup()
         end

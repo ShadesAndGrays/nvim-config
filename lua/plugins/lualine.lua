@@ -9,33 +9,53 @@ return{
                 theme = "iceberg_dark",
                 icons_enabled = true,
                 disabled_filetypes = {
-                    winbar = { 'NvimTree', 'packer', 'alpha', 'dashboard','lazy' }, -- Don't show path on these
+                    winbar = { 'NvimTree', 'dashboard','lazy', 'trouble', 'toggleterm','help' }, -- Don't show path on these
                 },
             },
             winbar = {
                 lualine_c = {
                     {
                         'filename',
-                        path=1,
+                        path=0,
                         shorting_target = 40,
                         color = function(section)
                             return { fg = vim.bo.modified and '#aa3355' or '#33aa88' , bg = nil , gui= 'bold'}
                         end,
-                        fmt = function(res) return "     " .. res end
+                        fmt = function(name)
+                            local devicons = require("nvim-web-devicons")
+                            local extension = vim.fn.fnamemodify(name, ':e')
+                            local icon, _ = devicons.get_icon(name, extension, { default = true })
+                            -- Strip the extension from the name
+                            local clean_name = name:gsub("%.%w+$", "")
+                            if clean_name == "" then clean_name = name end
+
+                            -- 4. Return the icon + the clean name
+                            return icon .. " " .. clean_name
+                        end,
+                        -- fmt = function(res) return "     " .. res end
                     },
                     {
                         'filename',
-                        path=2,
+                        path=1,
                         shorting_target = 40,
                         color = { fg = '#404063', bg = nil }
-                    }
+                    },
+                    {
+                        function()
+                            return require("nvim-navic").get_location()
+                        end,
+                        cond = function()
+                            return require("nvim-navic").is_available()
+                        end,
+                        color = { fg = "#00f2ff" }, -- Your high-contrast glow
+                    },
                 },
             },
             inactive_winbar = {
                 lualine_c = {
                     {
                         'filename',
-                        path=1,
+                        path=0,
                         shorting_target = 40,
                     }
 
@@ -86,6 +106,7 @@ return{
                 }
             },
             sections = {
+                lualine_c = {},
                 lualine_x ={
                     'lsp_status',
                     'encoding',

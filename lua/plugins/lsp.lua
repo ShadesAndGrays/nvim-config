@@ -53,23 +53,40 @@ return {
         "neovim/nvim-lspconfig",
         config = function()
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
-            vim.lsp.config('*', { capabilities = capabilities })
-            -- looks into after/lsp/ directory for: 
-            vim.lsp.enable('clangd')
-            vim.lsp.enable('cmake')
-            vim.lsp.enable('lua_ls')
-            vim.lsp.enable('pyright')
-            vim.lsp.enable('vtsls')
+            local lsps = { 
+                'clangd',
+                'cmake',
+                'lua_ls',
+                'pyright',
+                'vtsls',
+                'yamlls'
+            }
+
+            vim.api.nvim_create_autocmd('LspAttach', {
+                callback = function(args)
+                    local client = vim.lsp.get_client_by_id(args.data.client_id);
+                    local bufnr = args.buf
+                    -- print('Attached'.. client .. "on" .. bufnr)
+                    local navic = require("nvim-navic")
+                    if client and client.server_capabilities.documentSymbolProvider then
+                        navic.attach(client, bufnr)
+                    end
+                end
+
+            })
+            for  _,lsp in ipairs(lsps) do
+                vim.lsp.config( lsp, { capabilities = capabilities })
+                vim.lsp.enable(lsp)
+            end
 
             -- vim.lsp.enable('vacuum')
-            vim.lsp.enable('yamlls')
 
-             vim.filetype.add {
-               pattern = {
-                 ['openapi.*%.ya?ml'] = 'yaml.openapi',
-                 ['openapi.*%.json'] = 'json.openapi',
-               },
-             }
+            vim.filetype.add {
+                pattern = {
+                    ['openapi.*%.ya?ml'] = 'yaml.openapi',
+                    ['openapi.*%.json'] = 'json.openapi',
+                },
+            }
         end,
     },
 

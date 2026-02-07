@@ -3,7 +3,7 @@ return {
         'nvimdev/dashboard-nvim',
         event = 'VimEnter',
         dependencies = { {'nvim-tree/nvim-web-devicons'}},
-       enabled = false,
+        enabled = true,
         config = function()
             local header7 = {
                 "",
@@ -48,10 +48,10 @@ return {
             dash.setup({
                 --               theme = "doom",
                 config = {
-                    -- header = header7,
+                    header = header7,
                     week_header = {
                         enable = true , --boolean use a week header
-                        concat = "Wake up to reality",  --concat string after time string line
+                        concat = "You have choosen greatness today",  --concat string after time string line
                         append  = header7--table append after time string line
                     },
                     shortcut = {

@@ -1,4 +1,5 @@
 vim.cmd([[au BufNewFile,BufRead *.v set filetype=vlang]])
+vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.signcolumn = "yes" -- show the sign column always
 vim.opt.list = true -- show list chars
@@ -54,6 +55,5 @@ vim.lsp.inlay_hint.enable()
 
 -- neovide settings
 vim.g.neovide_cursor_vfx_mode = "railgun"
+vim.g.neovide_fullscreen = true
 
-
--- vim.opt.winbar = "%f" -- This is a native Vim test to see if the bar appears at all

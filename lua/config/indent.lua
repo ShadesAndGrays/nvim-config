@@ -21,4 +21,15 @@ hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
     vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
 end)
 
-require("ibl").setup { indent = { highlight = highlight } }
+---@module "ibl"
+---@type ibl.config
+local opts = {
+    indent = { highlight = highlight },
+    scope = { exclude = { language = { "lua"} } },
+    exclude = { filetypes = { 'dashboard' } }
+}
+vim.g.rainbow_delimeters = { highlight = highlight}
+
+require("ibl").setup(opts)
+
+hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)

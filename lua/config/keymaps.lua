@@ -4,6 +4,7 @@ vim.g.maplocalleader = ","
 
 local no_opts = {}
 local opts = {silent = true}
+local disable = '<nop>'
 
 
 Kmap = vim.keymap.set
@@ -37,8 +38,10 @@ Kmap("n", "<C-j>", "3<C-e>",opts) -- scroll up more quickly
 Kmap("n", "<Leader><tab>", "<cmd> tabnew<CR>",opts) -- create new tab
 -- Kmap("n", "<tab>", "<C-w>", opts)
 
-Kmap("t", "<Esc><Esc>", [[<C-\><C-n>]],opts) --exit terminal mode :)
+Kmap("i", "jk", '<Esc>',opts) --exit input mode :)
 
+Kmap('t', '<Esc><Esc>', [[<C-\><C-n>]], opts)
+Kmap('t', 'jk', [[<C-\><C-n>]], opts)
 
 
 -- Toggle Terminal
@@ -88,3 +91,5 @@ function WHEREAMI()
 end
 
 Kmap("n","<C-w>z", "<cmd>ZenMode<CR>",opts)
+
+Kmap("n", "q:", "<nop>")

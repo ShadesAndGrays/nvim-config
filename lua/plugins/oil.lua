@@ -7,6 +7,8 @@ return {{
           ["h"] = { "actions.parent", mode = "n" },
           ["<C-r>"] = "actions.refresh",
           ["l"] = { "actions.select", mode = "n" },
+          ["gcd"] = { "actions.cd", mode = "n" },
+          ["<esc><esc>"] = { "actions.close", mode = "n" },
       }
   },
   dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons

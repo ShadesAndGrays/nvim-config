@@ -7,6 +7,8 @@ return {
             vim.opt.splitkeep = "screen"
         end,
         opts = {
+            animate = { enabled = false},
+            exit_when_last = true,
             bottom = {
                 -- toggleterm / lazyterm at the bottom with a height of 40% of the screen
                 {
@@ -25,7 +27,16 @@ return {
                         return not vim.b[buf].lazyterm_cmd
                     end,
                 },
-                "Trouble",
+                {
+                    ft = "trouble",
+                    size = { height = 0.4 },
+                    -- exclude floating windows
+                    filter = function(buf, win)
+                        return vim.api.nvim_win_get_config(win).relative == ""
+                    end,
+
+                },
+                -- "Trouble",
                 {
                     ft = "help",
                     size = { height = 20 },
