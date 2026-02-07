@@ -13,23 +13,23 @@ return {
                 -- toggleterm / lazyterm at the bottom with a height of 40% of the screen
                 {
                     ft = "toggleterm",
-                    size = { height = 0.4 },
+                    size = { height = 0.25 },
                     -- exclude floating windows
                     filter = function(buf, win)
                         return vim.api.nvim_win_get_config(win).relative == ""
                     end,
                 },
-                {
-                    ft = "lazyterm",
-                    title = "LazyTerm",
-                    size = { height = 0.4 },
-                    filter = function(buf)
-                        return not vim.b[buf].lazyterm_cmd
-                    end,
-                },
+                -- {
+                --     ft = "lazyterm",
+                --     title = "LazyTerm",
+                --     size = { height = 0.4 },
+                --     filter = function(buf)
+                --         return not vim.b[buf].lazyterm_cmd
+                --     end,
+                -- },
                 {
                     ft = "trouble",
-                    size = { height = 0.4 },
+                    size = { height = 0.25 },
                     -- exclude floating windows
                     filter = function(buf, win)
                         return vim.api.nvim_win_get_config(win).relative == ""

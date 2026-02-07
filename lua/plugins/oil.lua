@@ -4,9 +4,9 @@ return {{
   ---@type oil.SetupOpts
   opts = {
       keymaps = {
-          ["h"] = { "actions.parent", mode = "n" },
-          ["<C-r>"] = "actions.refresh",
-          ["l"] = { "actions.select", mode = "n" },
+          ["<leader>h"] = { "actions.parent", mode = "n" },
+          ["<leader>r>"] = "actions.refresh",
+          ["<leader>l"] = { "actions.select", mode = "n" },
           ["gcd"] = { "actions.cd", mode = "n" },
           ["<esc><esc>"] = { "actions.close", mode = "n" },
       }

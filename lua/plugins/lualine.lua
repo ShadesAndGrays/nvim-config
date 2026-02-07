@@ -106,7 +106,15 @@ return{
                 }
             },
             sections = {
-                lualine_c = {},
+                lualine_c = {
+                    {
+                        function ()
+                            local cwd=  " 󱉭 " .. vim.fn.fnamemodify(vim.fn.getcwd(), ':~:h')
+                            return cwd
+                        end,
+                        color = { fg = "#00f2ff" }, -- Your high-contrast glow
+                    }
+                },
                 lualine_x ={
                     'lsp_status',
                     'encoding',
