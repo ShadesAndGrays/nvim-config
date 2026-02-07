@@ -42,15 +42,19 @@ Kmap("t", "<Esc><Esc>", [[<C-\><C-n>]],opts) --exit terminal mode :)
 
 
 -- Toggle Terminal
--- Currently substituing back tick with ^ cause i'm opperating through powershell which's been configured to send "\u001e" (windows ^ , linux `)
----- Toggle in Normal Mode
-vim.keymap.set('n', '<C-^>', '<cmd>ToggleTerm<cr>')
+if not vim.g.neovide then
+    -- Currently substituing back tick with ^ cause i'm opperating through powershell which's been configured to send "\u001e" (windows ^ , linux `)
+    ---- Toggle in Normal Mode, Terminal Mode and Insert Mode
+    vim.keymap.set('n', '<C-^>', '<cmd>ToggleTerm<cr>')
+    vim.keymap.set('t', '<C-^>', [[<C-\><C-n><cmd>ToggleTerm<cr>]])
+    vim.keymap.set('i', '<C-^>', '<cmd>ToggleTerm<cr>')
+else
+    vim.keymap.set('n', '<C-`>', '<cmd>ToggleTerm<cr>')
+    vim.keymap.set('t', '<C-`>', [[<C-\><C-n><cmd>ToggleTerm<cr>]])
+    vim.keymap.set('i', '<C-`>', '<cmd>ToggleTerm<cr>')
+end
 
--- Toggle in Terminal Mode (allows closing while typing in terminal)
-vim.keymap.set('t', '<C-^>', [[<C-\><C-n><cmd>ToggleTerm<cr>]])
 
--- Toggle in Insert Mode
-vim.keymap.set('i', '<C-^>', '<cmd>ToggleTerm<cr>')
 
 -- Toggle 
 Kmap('n',"<leader>dd",'<cmd>Trouble diagnostics toggle<CR>',opts)

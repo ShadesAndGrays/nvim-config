@@ -5,7 +5,7 @@ return{
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         opts = {
             options = {
-                theme = "palenight",
+                theme = "iceberg_dark",
                 icons_enabled = true,
             },
             tabline = {
@@ -16,6 +16,7 @@ return{
                         style = 'default'
                     },
                 },
+
                 lualine_b = {'buffers'}
             },
             sections = {
@@ -33,7 +34,8 @@ return{
                     'fileformat',
                     'filetype'
                 }
-            }
+            },
+            extensions = {'toggleterm'}
         }
     }
 }
