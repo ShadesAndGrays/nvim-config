@@ -71,6 +71,30 @@ return {
                     if client and client.server_capabilities.documentSymbolProvider then
                         navic.attach(client, bufnr)
                     end
+
+                    Kmap('n', 'gd', vim.lsp.buf.definition, {buffer = bufnr, desc="Go to description"})
+                    Kmap('n', 'gr', vim.lsp.buf.references, {buffer = bufnr, desc="Go to references"})
+                    Kmap('n', '<leader>ga', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Actions" })
+                    -- Jump to previous error/warning
+                    Kmap('n', 'gep', function() 
+                        vim.diagnostic.jump({ count = -1, float = true }) 
+                    end, { buffer = bufnr, desc = "Previous Diagnostic" })
+
+                    -- Jump to next error/warning
+                    Kmap('n', 'gen', function() 
+                        vim.diagnostic.jump({ count = 1, float = true }) 
+                    end, { buffer = bufnr, desc = "Next Diagnostic" })
+
+                    if client and client.name == 'clangd' then
+                        Kmap('n', '<leader>sw', '<cmd>LSPClangdSwitchSourceHeader<cr>', { buffer = bufnr, desc = "Switch Header/Source" })
+                    end
+                    Kmap('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, { buffer = bufnr, desc = "Format Code" })
+                    Kmap('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename Symbol" })
+                    Kmap('n', 'K',  vim.lsp.buf.hover,      {buffer = bufnr, desc="Show Docs"})
+                    Kmap('n', '<C-k>',      vim.lsp.buf.signature_help, { buffer = bufnr, desc = "Signature Help" })
+
+                    Kmap('n', 'gqp', '<cmd>cprev<cr>', { desc = "Previous Quickfix" })
+                    Kmap('n', 'gqn', '<cmd>cnext<cr>', { desc = "Next Quickfix" })
                 end
 
             })

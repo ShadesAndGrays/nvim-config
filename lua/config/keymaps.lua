@@ -41,7 +41,6 @@ Kmap("n", "<Leader><tab>", "<cmd> tabnew<CR>",opts) -- create new tab
 Kmap("i", "jk", '<Esc>',opts) --exit input mode :)
 
 Kmap('t', '<Esc><Esc>', [[<C-\><C-n>]], opts)
-Kmap('t', 'jk', [[<C-\><C-n>]], opts)
 
 
 -- Toggle Terminal

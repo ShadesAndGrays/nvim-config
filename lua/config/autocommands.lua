@@ -26,6 +26,7 @@ vim.api.nvim_create_autocmd("Filetype", {
 })
 
 
+
 local nvim_tree_group = vim.api.nvim_create_augroup("NvimTreeForceJump", { clear = true })
 vim.api.nvim_create_autocmd("DirChanged", {
     group=nvim_tree_group,
