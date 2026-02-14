@@ -54,7 +54,18 @@ return{
     config = function()
         local dap = require("dap")
         local dapui = require("dapui")
-        dapui.setup() -- setup DAP
+        dapui.setup({
+            layouts = {{
+
+                elements ={
+                    { id = "scopes" ,size = 0.5},
+                    { id = "beakpoints" ,size = 0.25},
+                    { id = "stacks" ,size = 0.25},
+            },
+            position = "right",
+            size = 40,
+            }}
+        }) -- setup DAP
         Kmap('n','<leader>gdd',dapui.toggle,{desc="Toggle DAP UI"})
         -- listen for all event emitted by DAP
         dap.listeners.before.attach.dapui_config = function()
@@ -69,6 +80,8 @@ return{
         dap.listeners.before.event_exited.dapui_config = function()
             dapui.close()
         end
+        vim.fn.sign_define('DapBreakpoint', {text='●', texthl='DapBreakpoint', linehl='', numhl=''})
+        vim.fn.sign_define('DapStopped', {text='▶', texthl='DapStopped', linehl='CursorLine', numhl=''})
     end,
     dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"} },
 }

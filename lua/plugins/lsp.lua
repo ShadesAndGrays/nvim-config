@@ -59,7 +59,8 @@ return {
                 'lua_ls',
                 'pyright',
                 'vtsls',
-                'yamlls'
+                'yamlls',
+                'gdscript'
             }
 
             vim.api.nvim_create_autocmd('LspAttach', {
@@ -88,7 +89,7 @@ return {
                     if client and client.name == 'clangd' then
                         Kmap('n', '<leader>sw', '<cmd>LSPClangdSwitchSourceHeader<cr>', { buffer = bufnr, desc = "Switch Header/Source" })
                     end
-                    Kmap('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, { buffer = bufnr, desc = "Format Code" })
+                    Kmap('n', '<leader>fm', function() vim.lsp.buf.format { async = true } end, { buffer = bufnr, desc = "Format Code" })
                     Kmap('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename Symbol" })
                     Kmap('n', 'K',  vim.lsp.buf.hover,      {buffer = bufnr, desc="Show Docs"})
                     Kmap('n', '<C-k>',      vim.lsp.buf.signature_help, { buffer = bufnr, desc = "Signature Help" })
@@ -123,5 +124,9 @@ return {
                 { path = "lazy.nvim", words = { "LazySpec" } },
             }
         }
+    },
+    {
+        "mason-org/mason.nvim",
+        opts = {}
     }
 }

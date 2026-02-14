@@ -25,3 +25,9 @@ require("lazydev").setup()
 require("nvim-tree").setup()
 
 -- require("practice.window")
+
+if vim.g.neovide then
+    -- 'expand' handles the Windows home path correctly
+    vim.fn.chdir(vim.fn.expand("~"))
+end
+

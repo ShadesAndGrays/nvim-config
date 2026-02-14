@@ -55,5 +55,7 @@ vim.lsp.inlay_hint.enable()
 
 -- neovide settings
 vim.g.neovide_cursor_vfx_mode = "railgun"
-vim.g.neovide_fullscreen = true
+if not require('config.whatos').IS_WINDOWS then
+    vim.g.neovide_fullscreen = true
+end
 

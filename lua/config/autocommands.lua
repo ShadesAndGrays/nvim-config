@@ -1,3 +1,5 @@
+local whatos = require('config.whatos')
+
 function hello()
     print("Hello new txt file")
 end
@@ -10,11 +12,12 @@ vim.api.nvim_create_autocmd(
     end
 })
 
-local pipepath = vim.fn.stdpath("cache") .. "/server.pipe"
-if not vim.loop.fs_stat(pipepath) then
-  vim.fn.serverstart(pipepath)
-end
-
+if whatos.IS_LINUX then
+    local pipepath = vim.fn.stdpath("cache") .. "/server.pipe"
+    if not vim.loop.fs_stat(pipepath) then
+      vim.fn.serverstart(pipepath)
+    end
+end 
 
 local build_group = vim.api.nvim_create_augroup("UserBuildSettings", { clear = true })
 vim.api.nvim_create_autocmd("Filetype", {
@@ -33,4 +36,12 @@ vim.api.nvim_create_autocmd("DirChanged", {
   callback = function()
     require("nvim-tree.api").tree.change_root(vim.fn.getcwd())
   end,
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+    callback = function()
+        if vim.g.neovide then
+            vim.fn.rpcnotify(1, "neovide.focus_window")
+        end
+    end
 })
