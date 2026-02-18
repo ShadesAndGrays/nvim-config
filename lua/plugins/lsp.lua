@@ -60,7 +60,9 @@ return {
                 'pyright',
                 'vtsls',
                 'yamlls',
-                'gdscript'
+                'gdscript',
+                'jsonls',
+                'gopls'
             }
 
             vim.api.nvim_create_autocmd('LspAttach', {
@@ -128,5 +130,9 @@ return {
     {
         "mason-org/mason.nvim",
         opts = {}
+    },
+    {
+        "b0o/SchemaStore.nvim",
+        lazy = true, -- Only loads when called by jsonls
     }
 }
