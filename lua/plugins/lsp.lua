@@ -62,7 +62,8 @@ return {
                 'yamlls',
                 'gdscript',
                 'jsonls',
-                'gopls'
+                'gopls',
+                'csharp_ls'
             }
 
             vim.api.nvim_create_autocmd('LspAttach', {

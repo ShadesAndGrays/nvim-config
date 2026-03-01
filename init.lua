@@ -4,6 +4,7 @@ require("config.options")
 require("config.whichkey")
 require("config.autocommands")
 require("config.treesitter")
+require("config.godot")
 -- require("config.indent") -- for indent-backline
 
 
@@ -31,3 +32,8 @@ if vim.g.neovide then
     vim.fn.chdir(vim.fn.expand("~"))
 end
 
+vim.notify = require("notify")
+
+vim.notify("Loaded config", vim.log.levels.INFO,{title="init.lua"})
+
+vim.api.nvim_create_user_command("ReloadConfig", ":source $MYVIMRC",{})

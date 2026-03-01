@@ -109,7 +109,7 @@ return{
                 lualine_c = {
                     {
                         function ()
-                            local cwd=  " 󱉭 " .. vim.fn.fnamemodify(vim.fn.getcwd(), ':~:h')
+                            local cwd=  " 󱉭 " .. vim.fn.fnamemodify(vim.fn.getcwd(), ':~')
                             return cwd
                         end,
                         color = { fg = "#00f2ff" }, -- Your high-contrast glow
