@@ -7,7 +7,7 @@ return {{
           ["<leader>h"] = { "actions.parent", mode = "n" },
           ["<leader>r>"] = "actions.refresh",
           ["<leader>l"] = { "actions.select", mode = "n" },
-          ["gcd"] = { "actions.cd", mode = "n" },
+          ["gcd"] = { "actions.tcd", mode = "n" },
           ["<esc><esc>"] = { "actions.close", mode = "n" },
       }
   },

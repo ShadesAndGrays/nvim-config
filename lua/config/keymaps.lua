@@ -35,7 +35,10 @@ Kmap("n","<leader>u", ":UndotreeToggle<CR>",opts)
 Kmap("n", "<C-k>", "3<C-y>",opts) -- scroll down more quickly
 Kmap("n", "<C-j>", "3<C-e>",opts) -- scroll up more quickly
 
-Kmap("n", "<Leader><tab>", "<cmd> tabnew<CR>",opts) -- create new tab
+Kmap("n", "<tab><tab>", "<cmd> tabnew<CR>",opts) -- create new tab
+Kmap("n", "<tab>p", "<cmd> tabprevious<CR>",opts) -- create new tab
+Kmap("n", "<tab>n", "<cmd> tabnext<CR>",opts) -- create new tab
+Kmap("n", "<tab>q", "<cmd> tabclose<CR>",opts) -- create new tab
 -- Kmap("n", "<tab>", "<C-w>", opts)
 
 Kmap("i", "jk", '<Esc>',opts) --exit input mode :)

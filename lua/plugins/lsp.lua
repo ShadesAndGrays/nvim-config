@@ -4,7 +4,22 @@ return {
         "L3MON4D3/LuaSnip",
         dependencies = { "rafamadriz/friendly-snippets" },
         config = function()
+            require("luasnip.loaders.from_lua").lazy_load({ paths = "./snippets"})
             require("luasnip.loaders.from_vscode").lazy_load()
+
+            local ls = require("luasnip")
+            vim.keymap.set({"i","s"}, "<A-k>", function ()
+                if ls.expand_or_jumpable() then
+                    ls.expand_or_jump()
+                end
+            end ,{silent = true})
+
+            vim.keymap.set({"i","s"}, "<A-j>", function ()
+                if ls.jumpable(-1) then
+                    ls.jump(-1)
+                end
+            end ,{silent = true})
+
         end,
     },
 
@@ -53,6 +68,7 @@ return {
         "neovim/nvim-lspconfig",
         config = function()
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
+            capabilities.textDocument.completion.completionItem.snippetSupport = true
             local lsps = { 
                 'clangd',
                 'cmake',
@@ -61,9 +77,16 @@ return {
                 'vtsls',
                 'yamlls',
                 'gdscript',
+                'gopls',
+                -- html stuff
+                'eslint',
+                'html',
                 'jsonls',
                 'gopls',
-                'csharp_ls'
+                'csharp_ls',
+                'cssls',
+                'tailwindcss',
+                'rust_analyzer' -- forgive me lord
             }
 
             vim.api.nvim_create_autocmd('LspAttach', {
@@ -115,6 +138,12 @@ return {
                     ['openapi.*%.json'] = 'json.openapi',
                 },
             }
+
+        vim.g.autotag_filetype_dict = {
+            typescriptreact = "typescript",
+            javascriptreact = "javascript"
+        }
+
         end,
     },
 
