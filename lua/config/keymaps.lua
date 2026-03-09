@@ -47,22 +47,12 @@ Kmap('t', '<Esc><Esc>', [[<C-\><C-n>]], opts)
 
 
 -- Toggle Terminal
-if not vim.g.neovide then
-    -- Currently substituing back tick with ^ cause i'm opperating through powershell which's been configured to send "\u001e" (windows ^ , linux `)
-    ---- Toggle in Normal Mode, Terminal Mode and Insert Mode
-    vim.keymap.set('n', '<C-^>', '<cmd>ToggleTerm<cr>')
-    vim.keymap.set('t', '<C-^>', [[<C-\><C-n><cmd>ToggleTerm<cr>]])
-    vim.keymap.set('i', '<C-^>', '<cmd>ToggleTerm<cr>')
-else
-    vim.keymap.set('n', '<C-`>', '<cmd>ToggleTerm<cr>')
-    vim.keymap.set('t', '<C-`>', [[<C-\><C-n><cmd>ToggleTerm<cr>]])
-    vim.keymap.set('i', '<C-`>', '<cmd>ToggleTerm<cr>')
-end
+Kmap('n', '<S-c>', '<cmd>ToggleTerm<cr>')
+Kmap('t', '<S-c>', [[<C-\><C-n><cmd>ToggleTerm<cr>]])
+Kmap('i', '<M-c>', '<cmd>ToggleTerm<cr>')
 
-
-
--- Toggle 
-Kmap('n',"<leader>dd",'<cmd>Trouble diagnostics toggle<CR>',opts)
+-- Toggle Diagnostics 
+Kmap('n',"<S-x>",'<cmd>Trouble diagnostics toggle<CR>',opts)
 
 
 Kmap('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)

@@ -83,13 +83,14 @@ return {
             Kmap('n', '<leader>fh', builtin.help_tags, {desc = "Telescope find help"})
             Kmap('n', '<leader>fs', builtin.spell_suggest, {desc = "Telescope spell suggest"}) -- I mess up a lot
             Kmap('n', '<leader>fk', builtin.keymaps, {desc = "Telescope find keymap"})
-            Kmap('n', '<leader>fco', builtin.commands, {desc = "Telescope find commands"}) -- I am a god now
+            Kmap('n', '<leader>fcm', builtin.commands, {desc = "Telescope find commands"}) -- I am a god now
             Kmap('n', '<leader>fch', builtin.command_history, {desc = "Telescope find previuos commands commands"}) -- 
             Kmap('n', '<leader>fp', telescope.extensions.project.project, {desc = "Telescope Project View"})
             Kmap("n", "<leader>fz", telescope.extensions.zoxide.list, {desc = "Find Recent directories"})
 
 
             require('config.telescope.multigrep').setup()
+            -- require('config.telescope.trouble').setup()
         end
     },
     {
