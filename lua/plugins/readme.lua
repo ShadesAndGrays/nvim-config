@@ -6,6 +6,10 @@ return{
         -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
         -- ---@module 'render-markdown'
         -- ---@type render.md.UserConfig
+        opts = {
+            file_types = { "markdown", "Avante" }
+        },
+        ft = { "markdown", "Avante" }
         -- opts = {
         --     completions = { lsp = { enabled = true } },
         -- },

@@ -73,7 +73,6 @@ return {
                 'clangd',
                 'cmake',
                 'lua_ls',
-                'pyright',
                 'vtsls',
                 'yamlls',
                 'gdscript',
@@ -86,6 +85,7 @@ return {
                 'csharp_ls',
                 'cssls',
                 'tailwindcss',
+                'pylsp',
                 'rust_analyzer' -- forgive me lord
             }
 

@@ -84,4 +84,6 @@ end
 
 Kmap("n","<C-w>z", "<cmd>ZenMode<CR>",opts)
 
+Kmap("n","<leader>fa" ,"<cmd>AvanteToggle<CR>", opts)
+
 Kmap("n", "q:", "<nop>")
