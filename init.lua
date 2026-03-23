@@ -19,7 +19,7 @@ require('nvim-navic').setup()
 
 
 --Setting up for the web
-require'web-tools'.setup()
+require 'web-tools'.setup()
 require('nvim-ts-autotag').setup()
 
 require("lazydev").setup()
@@ -34,6 +34,7 @@ end
 
 vim.notify = require("notify")
 
-vim.notify("Loaded config", vim.log.levels.INFO,{title="init.lua"})
+vim.notify("Loaded config", vim.log.levels.INFO, { title = "init.lua" })
 
-vim.api.nvim_create_user_command("ReloadConfig", ":source $MYVIMRC",{})
+vim.api.nvim_create_user_command("ReloadConfig", ":source $MYVIMRC", {})
+

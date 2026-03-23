@@ -5,9 +5,15 @@ return {
     settings = {
         pylsp = {
             plugins = {
+                jedi_completion = {
+                    -- This helps jedi find the venv modules
+                    workspace_folders = { vim.fn.getcwd() }
+                },
                 pycodestyle = {
-                    ignore = { 'W391' },
-                    maxLineLength = 100
+                    pycodestyle = {
+                        ignore = "E302",
+                        maxLineLength = 88
+                    },
                 }
             }
         }

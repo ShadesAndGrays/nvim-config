@@ -47,7 +47,7 @@ return {
                         theme = "cursor",
                     },
                     keymaps = {
-                        theme = "dropdown",
+                        theme = "ivy",
                     }
                 },
                 extensions = {

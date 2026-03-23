@@ -47,13 +47,9 @@ Kmap('t', '<Esc><Esc>', [[<C-\><C-n>]], opts)
 
 
 -- Toggle Terminal
-Kmap('n', '<S-c>', '<cmd>ToggleTerm<cr>')
-Kmap('t', '<S-c>', [[<C-\><C-n><cmd>ToggleTerm<cr>]])
-Kmap('i', '<M-c>', '<cmd>ToggleTerm<cr>')
-
--- Toggle Diagnostics 
-Kmap('n',"<S-x>",'<cmd>Trouble diagnostics toggle<CR>',opts)
-
+Kmap('n', '<S-c>', '<cmd>ToggleTerm direction=horizontal<cr>')
+Kmap('t', '<S-c>', [[<C-\><C-n><cmd>ToggleTerm direction=horizontal<cr>]])
+Kmap('i', '<M-c>', '<cmd>ToggleTerm direction=horizontal<cr>')
 
 Kmap('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 Kmap('n', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
