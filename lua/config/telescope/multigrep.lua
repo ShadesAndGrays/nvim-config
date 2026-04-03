@@ -44,7 +44,8 @@ local live_multigrep = function (opts)
 end
 
 M.setup = function ()
-    Kmap("n","<leader>fg",live_multigrep,{desc="Multi Grep"})
+    local kmap = vim.keymap.set
+    kmap("n","<leader>fg",live_multigrep,{desc="Multi Grep"})
 end
 
 return M

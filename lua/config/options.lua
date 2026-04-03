@@ -13,7 +13,7 @@ vim.opt.listchars = {
     multispace = "·", -- show chars if I have multiple spaces between text
     leadmultispace = " ", -- ...but don't show any when they're at the start
 }
-vim.cmd('colorscheme catppuccin-mocha')
+-- vim.cmd('colorscheme catppuccin-mocha')
 vim.opt.cursorline = true
 vim.opt.laststatus = 3 -- single global statusline
 
