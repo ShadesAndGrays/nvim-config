@@ -1,5 +1,14 @@
+
+local port = os.getenv('GDScript_Port') or '6005'
+local cmd = {'ncat', '127.0.0.1', port}
+local pipe = [[\\.\pipe\godot.pipe]]
+
 return {
-    cmd = { 'ncat', '127.0.0.1', '6005' },
+    -- cmd = { 'ncat', '127.0.0.1', '6005' },
+    cmd = vim.lsp.rpc.connect('127.0.0.1', 6005),
     filetypes = { 'gdscript', 'tscn', },
-    root_markers = {".git", "project.godot"},
+    root_dir =  vim.fs.dirname(vim.fs.find({ 'project.godot', '.git' }, { upward = true })[1]),
+
+    -- root_markers = {".git", "project.godot"},
 }
+

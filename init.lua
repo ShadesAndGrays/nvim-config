@@ -23,6 +23,7 @@ end
 vim.notify = require("notify")
 vim.notify("Loaded config", vim.log.levels.INFO, { title = "init.lua" })
 
+vim.cmd('colorscheme catppuccin-mocha')
 
 
 -- Set shell to pwsh, configuring flags for encoding and execution policy

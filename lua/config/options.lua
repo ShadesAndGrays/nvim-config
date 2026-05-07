@@ -1,4 +1,3 @@
-vim.cmd([[au BufNewFile,BufRead *.v set filetype=vlang]])
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.signcolumn = "yes" -- show the sign column always
@@ -13,7 +12,6 @@ vim.opt.listchars = {
     multispace = "·", -- show chars if I have multiple spaces between text
     leadmultispace = " ", -- ...but don't show any when they're at the start
 }
--- vim.cmd('colorscheme catppuccin-mocha')
 vim.opt.cursorline = true
 vim.opt.laststatus = 3 -- single global statusline
 
@@ -49,9 +47,6 @@ vim.g.vimspector_enable_mappings = 'HUMAN'
 -- disable netrw at the very start of your init.lua
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-
--- enable inlay
-vim.lsp.inlay_hint.enable()
 
 -- neovide settings
 vim.g.neovide_cursor_vfx_mode = "railgun"

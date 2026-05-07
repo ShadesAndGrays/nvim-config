@@ -33,6 +33,7 @@ local lsps = {
     -- 'cssls',
     -- 'tailwindcss',
     -- 'pyright',
+    'glsl_analyzer',
     'ols',
     -- 'rust_analyzer'
 }
