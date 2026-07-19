@@ -54,14 +54,19 @@ function M.picker()
                 actions.close(prompt_bufnr)
                 local selection = action_state.get_selected_entry()
                 local target = selection[1]
+                local command = string.format(
+                    'C:\\msys64\\msys2_shell.cmd -ucrt64 -here -defterm -no-start -c "make %s"',
+                    target
+                )
 
                 local make_term = Terminal:new({
-                    cmd = "make " .. target,
+                    cmd = command,
                     direction = "vertical",
                     close_on_exit = false,
                     start_in_insert = true, -- Forces insert mode automatically
                     hidden = false,
                 })
+                vim.notify("Running make target: " .. target .. "\n command: " .. command)
 
                 make_term:toggle()
             end)

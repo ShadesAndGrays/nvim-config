@@ -11,7 +11,7 @@ local lualine_opts = {
         theme = "iceberg_dark",
         icons_enabled = true,
         disabled_filetypes = {
-            winbar = { 'NvimTree', 'dashboard','lazy', 'trouble', 'toggleterm','help' }, -- Don't show path on these
+            winbar = { 'NvimTree', 'dashboard','lazy', 'trouble', 'toggleterm','help','dap-view','dap-repl' }, -- Don't show path on these
         },
     },
     winbar = {
