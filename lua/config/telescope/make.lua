@@ -1,13 +1,26 @@
 local M = {}
 
 function M.picker()
-    local makefile = "makefile"
+    local found = vim.fs.find(function(name, path)
+        local lower = name:lower()
+        return lower == "makefile"
+    end, {
+        path = vim.uv.cwd(),
+        limit = 1,
+        type = 'file'
+    })
 
-    -- If can't find makefile
-    if vim.fn.filereadable(makefile) == 0 then
+    if #found == 0 then
         vim.notify('No makefile found in the current directory', vim.log.levels.WARN)
         return
     end
+
+    local makefile = found[1]
+
+    -- if vim.fn.filereadable(makefile) == 0 then
+    --     vim.notify('No makefile found in the current directory', vim.log.levels.WARN)
+    --     return
+    -- end
 
     local targets = {}
 

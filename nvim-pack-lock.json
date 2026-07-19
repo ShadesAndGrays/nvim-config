@@ -40,6 +40,10 @@
       "rev": "8bfd2808994a988c975694122f68624b8a219f5f",
       "src": "https://github.com/folke/edgy.nvim"
     },
+    "flatten.nvim": {
+      "rev": "d92ca41e9c330f45c1b854a80c89c8488a9d730c",
+      "src": "https://github.com/willothy/flatten.nvim"
+    },
     "gitsigns.nvim": {
       "rev": "c4854e174979d84d84fe56d3234b95a612673731",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
@@ -91,10 +95,6 @@
     "oil.nvim": {
       "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
       "src": "https://github.com/stevearc/oil.nvim.git"
-    },
-    "pack-manager.nvim": {
-      "rev": "e947437ab03c2e20d7eb4e27d1a5f043a9ab1d72",
-      "src": "https://github.com/mplusp/pack-manager.nvim"
     },
     "persistence.nvim": {
       "rev": "b20b2a7887bd39c1a356980b45e03250f3dce49c",

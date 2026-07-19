@@ -11,14 +11,9 @@ vim.pack.add({
     "https://github.com/mbbill/undotree",
 })
 
-vim.pack.add({
-  "https://github.com/mplusp/pack-manager.nvim"
-})
-
 require("config/keymaps")
 require("config/options")
 require("config/autocommands")
-
 
 
 if vim.g.neovide then
@@ -36,7 +31,8 @@ vim.cmd('colorscheme catppuccin-mocha')
 -- Set shell to pwsh, configuring flags for encoding and execution policy
 local powershell_options = {
     shell = vim.fn.executable "pwsh" == 1 and "pwsh" or "powershell",
-    shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
+    shellcmdflag =
+    "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
     shellquote = "",
     shellxquote = "",
 }
