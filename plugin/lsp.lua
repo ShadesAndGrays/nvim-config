@@ -2,8 +2,8 @@ vim.pack.add({
     'https://github.com/neovim/nvim-lspconfig',
     'https://github.com/mason-org/mason.nvim',
     'https://github.com/nvim-mini/mini.completion.git',
-'https://github.com/b0o/SchemaStore.nvim',
-'https://github.com/folke/lazydev.nvim',
+    'https://github.com/b0o/SchemaStore.nvim',
+    'https://github.com/folke/lazydev.nvim',
 })
 
 require("mason").setup()
@@ -38,73 +38,90 @@ local lsps = {
 }
 
 vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(args)
-    local client_id = args.data.client_id
-    local client = vim.lsp.get_client_by_id(client_id)
-    local bufnr = args.buf
+    callback = function(args)
+        local client_id = args.data.client_id
+        local client = vim.lsp.get_client_by_id(client_id)
+        local bufnr = args.buf
 
-    if not client then return end
+        if not client then return end
 
-    vim.notify('Attached ' .. client.name .. ' to buffer ' .. bufnr)
+        vim.notify('Attached ' .. client.name .. ' to buffer ' .. bufnr)
 
-    local navic = require("nvim-navic")
-    if client.server_capabilities.documentSymbolProvider then
-      navic.attach(client, bufnr)
-    end
-
-
-    -- --- Keymaps ---
-    local kmap = vim.keymap.set
-
-    if client:supports_method("textDocument/inlayHint") then
-        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-        -- toggle inlayhints
-        
-    kmap('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to description" })
-        kmap("n","<leader>ih", "<cmd>lua LSPToggleInLayHint()<cr>",{silent = true})
-        function LSPToggleInLayHint()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({0}),{0})
+        local navic = require("nvim-navic")
+        if client.server_capabilities.documentSymbolProvider then
+            navic.attach(client, bufnr)
         end
 
-        if client:supports_method("textDocument/onTypeFormatting") then
-            vim.lsp.on_type_formatting.enable(true, {client_id = client_id})
+
+        -- --- Keymaps ---
+        local kmap = vim.keymap.set
+
+        if client:supports_method("textDocument/inlayHint") then
+            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+            -- toggle inlayhints
+
+            kmap('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to description" })
+            kmap("n", "<leader>ih", "<cmd>lua LSPToggleInLayHint()<cr>", { silent = true })
+            function LSPToggleInLayHint()
+                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ 0 }), { 0 })
+            end
+
+            if client:supports_method("textDocument/onTypeFormatting") then
+                vim.lsp.on_type_formatting.enable(true, { client_id = client_id })
+            end
         end
 
+        if client and client.server_capabilities.documentFormattingProvider then
+            -- Fallback to common standards if the server doesn't explicitly advertise its size
+            vim.bo[bufnr].formatexpr = "v:lua.vim.lsp.formatexpr()"
+        end
+
+        if client and client.supports_method("textDocument/documentHighlight") then
+            vim.api.nvim_create_augroup("lsp_document_highlight", { clear = false })
+
+            -- Highlight matching symbols when cursor holds still
+            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+                group = "lsp_document_highlight",
+                buffer = args.buf,
+                callback = vim.lsp.buf.document_highlight,
+            })
+
+            -- Clear the highlights when the cursor moves again
+            vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+                group = "lsp_document_highlight",
+                buffer = args.buf,
+                callback = vim.lsp.buf.clear_references,
+            })
+        end
+
+        kmap('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to description" })
+        kmap('n', 'gr', vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" })
+        kmap('n', '<leader>ga', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Actions" })
+        kmap('v', '<leader>ga', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Actions" })
+
+        kmap('n', 'gep', function()
+            vim.diagnostic.jump({ count = -1, float = true })
+        end, { buffer = bufnr, desc = "Previous Diagnostic" })
+
+        kmap('n', 'gen', function()
+            vim.diagnostic.jump({ count = 1, float = true })
+        end, { buffer = bufnr, desc = "Next Diagnostic" })
+
+        if client.name == 'clangd' then
+            kmap('n', '<leader>sw', '<cmd>ClangdSwitchSourceHeader<cr>',
+                { buffer = bufnr, desc = "Switch Header/Source" })
+        end
+
+        kmap('n', '<leader>fm', function() vim.lsp.buf.format { async = true } end,
+            { buffer = bufnr, desc = "Format Code" })
+        kmap('v', '<leader>fm', ":lua vim.lsp.buf.format()<CR>", { buffer = bufnr, desc = "Range Format Code" })
+
+        kmap('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename Symbol" })
+        kmap('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Docs" })
+
+        kmap('n', 'gqp', '<cmd>cprev<cr>', { desc = "Previous Quickfix" })
+        kmap('n', 'gqn', '<cmd>cnext<cr>', { desc = "Next Quickfix" })
     end
-
-    if client and client.server_capabilities.documentFormattingProvider then
-        -- Fallback to common standards if the server doesn't explicitly advertise its size
-        vim.bo[bufnr].formatexpr = "v:lua.vim.lsp.formatexpr()"
-
-    end
-
-
-    kmap('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to description" })
-    kmap('n', 'gr', vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" })
-    kmap('n', '<leader>ga', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Actions" })
-    kmap('v', '<leader>ga', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Actions" })
-
-    kmap('n', 'gep', function()
-        vim.diagnostic.jump({ count = -1, float = true })
-    end, { buffer = bufnr, desc = "Previous Diagnostic" })
-
-    kmap('n', 'gen', function()
-        vim.diagnostic.jump({ count = 1, float = true })
-    end, { buffer = bufnr, desc = "Next Diagnostic" })
-
-    if client.name == 'clangd' then
-        kmap('n', '<leader>sw', '<cmd>ClangdSwitchSourceHeader<cr>', { buffer = bufnr, desc = "Switch Header/Source" })
-    end
-
-    kmap('n', '<leader>fm', function() vim.lsp.buf.format { async = true } end, { buffer = bufnr, desc = "Format Code" })
-    kmap('v', '<leader>fm', ":lua vim.lsp.buf.format()<CR>", { buffer = bufnr, desc = "Range Format Code" })
-
-    kmap('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename Symbol" })
-    kmap('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Docs" })
-
-    kmap('n', 'gqp', '<cmd>cprev<cr>', { desc = "Previous Quickfix" })
-    kmap('n', 'gqn', '<cmd>cnext<cr>', { desc = "Next Quickfix" })
-end
 })
 
 -- --- Global LSP Utilities & Overrides ---
