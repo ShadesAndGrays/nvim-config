@@ -86,6 +86,7 @@ kmap('n', '<leader>fcm', builtin.commands, {desc = "Telescope find commands"}) -
 kmap('n', '<leader>fch', builtin.command_history, {desc = "Telescope find previuos commands commands"}) -- 
 --kmap('n', '<leader>fp', telescope.extensions.project.project, {desc = "Telescope Project View"})
 --kmap("n", "<leader>fz", telescope.extensions.zoxide.list, {desc = "Find Recent directories"})
+kmap('n','<leader>mk',function() require ("config.telescope.make").picker() end,{desc = "Telescope MakefileTargets"})
 
 
 require('config.telescope.multigrep').setup()

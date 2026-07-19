@@ -76,7 +76,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
             vim.bo[bufnr].formatexpr = "v:lua.vim.lsp.formatexpr()"
         end
 
-        if client and client.supports_method("textDocument/documentHighlight") then
+        if client:supports_method("textDocument/semanticTokens/full") then
+            client.server_capabilities.semanticTokensProvider = {
+                full = true,
+                legend = client.server_capabilities.semanticTokensProvider.legend
+            }
+        end
+
+        if client:supports_method("textDocument/documentHighlight") then
             vim.api.nvim_create_augroup("lsp_document_highlight", { clear = false })
 
             -- Highlight matching symbols when cursor holds still
@@ -93,6 +100,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
                 callback = vim.lsp.buf.clear_references,
             })
         end
+
+        vim.api.nvim_create_autocmd("CursorHold", {
+            callback = function()
+                vim.diagnostic.open_float(nil, { focusable = false })
+            end,
+        })
 
         kmap('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to description" })
         kmap('n', 'gr', vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" })
@@ -121,7 +134,33 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
         kmap('n', 'gqp', '<cmd>cprev<cr>', { desc = "Previous Quickfix" })
         kmap('n', 'gqn', '<cmd>cnext<cr>', { desc = "Next Quickfix" })
+
+        vim.diagnostic.config({
+            -- virtual_text = {
+            --     spacing = 4,
+            --     prefix = "●", -- Subtle bullet point instead of long text strings
+            -- },
+            -- virtual_lines = true,
+            severity_sort = true,   -- Always prioritize showing Errors above Warnings
+            float = {
+                border = "rounded", -- Adds a beautiful clean border to popup diagnostic windows
+                source = "if_many", -- Shows exactly which tool (clangd, clang-tidy) threw the error
+                header = "",
+                max_width = 80,
+            },
+            signs = {
+                text = {
+                    [vim.diagnostic.severity.ERROR] = "󰅚 ",
+                    [vim.diagnostic.severity.WARN]  = "󰀪 ",
+                    [vim.diagnostic.severity.HINT]  = "󰌶 ",
+                    [vim.diagnostic.severity.INFO]  = "󱀕 ",
+                },
+            },
+
+        })
     end
+
+
 })
 
 -- --- Global LSP Utilities & Overrides ---

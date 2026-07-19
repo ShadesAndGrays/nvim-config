@@ -54,3 +54,4 @@ if not require('config.whatos').IS_WINDOWS then
     vim.g.neovide_fullscreen = true
 end
 
+vim.o.updatetime = 300 -- reduce wait time for popups
