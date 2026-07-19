@@ -48,11 +48,15 @@ kmap('t', '<esc><esc>', [[<c-\><c-n>]], opts)
 
 -- toggle terminal
 kmap('n', '<s-c>', '<cmd>ToggleTerm direction=horizontal<cr>')
-kmap('t', '<s-c>', [[<c-\><c-n><cmd>ToggleTerm direction=horizontal<cr>]])
 kmap('i', '<m-c>', '<cmd>ToggleTerm direction=horizontal<cr>')
+
+kmap('n', '<s-f>', '<cmd>ToggleTerm direction=float<cr>')
+kmap('i', '<m-f>', '<cmd>ToggleTerm direction=float<cr>')
 
 kmap('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
 kmap('n', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+
+
 
 
 kmap('n',[[<leader>\]],'<cmd>belowright vsp<cr>',opts)
@@ -67,11 +71,6 @@ kmap('n',"<leader>p","<cmd>bp<cr>",opts)
 kmap("n","<leader>ft", ":NvimTreeToggle<cr>",opts)
 kmap("n","<leader>fo", "<cmd>Oil<cr>",{ desc = "open parent directory"})
 
--- toggle inlayhints
-kmap("n","<leader>ih", "<cmd>lua toggle_in_lay()<cr>",opts)
-function toggle_in_lay()
-    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({0}),{0}) 
-end
 
 function whereami()
     require('scratch-buffer').open()
@@ -87,3 +86,44 @@ kmap("n", "q:", "<nop>")
 -- kmap("n","gd","<cmd>DiffviewOpen HEAD^<cr>",opts)
 --
 -- kmap("n","gx","<cmd>DiffviewClose<cr>",opts)
+
+
+-- Persistence
+
+-- load the session for the current directory
+vim.keymap.set("n", "<leader>qs", function() require("persistence").load() end)
+
+-- select a session to load
+vim.keymap.set("n", "<leader>qS", function() require("persistence").select() end)
+
+-- load the last session
+vim.keymap.set("n", "<leader>ql", function() require("persistence").load({ last = true }) end)
+
+-- stop Persistence => session won't be saved on exit
+vim.keymap.set("n", "<leader>qd", function() require("persistence").stop() end)
+
+
+
+if vim.g.neovide then
+
+    -- Initial scale factor
+    vim.g.neovide_scale_factor = 1.0
+
+    -- Zoom In
+    vim.keymap.set("n", "<C-=>", function()
+        vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1
+    end)
+
+    -- Zoom Out
+    vim.keymap.set("n", "<C-->", function()
+        if vim.g.neovide_scale_factor > 0.3 then
+            vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1
+        end
+    end)
+
+    -- Reset Zoom
+    vim.keymap.set("n", "<C-0>", function()
+        vim.g.neovide_scale_factor = 1.0
+    end)
+
+end

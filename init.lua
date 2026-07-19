@@ -6,12 +6,19 @@ vim.pack.add({
     'https://github.com/numToStr/Comment.nvim',
     'https://github.com/HiPhish/rainbow-delimiters.nvim',
     "https://github.com/nvzone/typr",
+    "https://github.com/folke/persistence.nvim",
+    "https://github.com/m4xshen/autoclose.nvim",
+    "https://github.com/mbbill/undotree",
+})
 
+vim.pack.add({
+  "https://github.com/mplusp/pack-manager.nvim"
 })
 
 require("config/keymaps")
 require("config/options")
 require("config/autocommands")
+
 
 
 if vim.g.neovide then
@@ -37,17 +44,3 @@ local powershell_options = {
 for option, value in pairs(powershell_options) do
     vim.opt[option] = value
 end
-
-vim.lsp.config('*', {
-    capabilities = {
-        textDocument = {
-            semanticTokens = {
-                multilineTokenSupport = true,
-            }
-        }
-    }
-})
-
-vim.lsp.config('*', {
-    root_markers = { '.git', '.hg' },
-})

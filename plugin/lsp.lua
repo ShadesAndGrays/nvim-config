@@ -20,83 +20,115 @@ local lsps = {
     'clangd',
     'cmake',
     'lua_ls',
-    -- 'vtsls',
+    'vtsls',
     -- 'yamlls',
     'gdscript',
-    -- 'gopls',
     -- html stuff
     -- 'eslint',
     -- 'html',
     -- 'jsonls',
-    -- 'gopls',
-    -- 'csharp_ls',
+    'gopls',
+    'csharp_ls',
     -- 'cssls',
     -- 'tailwindcss',
-    -- 'pyright',
-    'glsl_analyzer',
+    'pyright',
+    -- 'glsl_analyzer',
     'ols',
-    -- 'rust_analyzer'
+    'rust_analyzer'
 }
 
 vim.api.nvim_create_autocmd('LspAttach', {
-    callback = function(args)
-        local client = vim.lsp.get_client_by_id(args.data.client_id);
-        local bufnr = args.buf
-        vim.notify('Attached '.. client.name .. ' to buffer ' .. bufnr)
+  callback = function(args)
+    local client_id = args.data.client_id
+    local client = vim.lsp.get_client_by_id(client_id)
+    local bufnr = args.buf
 
-        local navic = require("nvim-navic")
-        if client and client.server_capabilities.documentSymbolProvider then
-            navic.attach(client, bufnr)
-        end
+    if not client then return end
 
-        local kmap = vim.keymap.set
+    vim.notify('Attached ' .. client.name .. ' to buffer ' .. bufnr)
 
-        -- kmap('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to description" })
-        -- kmap('n', 'gr', vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" })
-        -- kmap('n', '<leader>ga', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Actions" })
-        -- -- Jump to previous error/warning
-        -- kmap('n', 'gep', function()
-        --     vim.diagnostic.jump({ count = -1, float = true })
-        -- end, { buffer = bufnr, desc = "Previous Diagnostic" })
-        --
-        -- -- Jump to next error/warning
-        -- kmap('n', 'gen', function()
-        --     vim.diagnostic.jump({ count = 1, float = true })
-        -- end, { buffer = bufnr, desc = "Next Diagnostic" })
-        --
-        -- if client and client.name == 'clangd' then
-        --     kmap('n', '<leader>sw', '<cmd>LSPClangdSwitchSourceHeader<cr>',
-        --     { buffer = bufnr, desc = "Switch Header/Source" })
-        -- end
-        -- kmap('n', '<leader>fm', function() vim.lsp.buf.format { async = true } end,
-        -- { buffer = bufnr, desc = "Format Code" })
-        -- kmap('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename Symbol" })
-        -- kmap('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Docs" })
-        --
-        -- kmap('n', 'gqp', '<cmd>cprev<cr>', { desc = "Previous Quickfix" })
-        -- kmap('n', 'gqn', '<cmd>cnext<cr>', { desc = "Next Quickfix" })
+    local navic = require("nvim-navic")
+    if client.server_capabilities.documentSymbolProvider then
+      navic.attach(client, bufnr)
     end
 
+
+    -- --- Keymaps ---
+    local kmap = vim.keymap.set
+
+    if client:supports_method("textDocument/inlayHint") then
+        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+        -- toggle inlayhints
+        
+    kmap('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to description" })
+        kmap("n","<leader>ih", "<cmd>lua LSPToggleInLayHint()<cr>",{silent = true})
+        function LSPToggleInLayHint()
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({0}),{0})
+        end
+
+        if client:supports_method("textDocument/onTypeFormatting") then
+            vim.lsp.on_type_formatting.enable(true, {client_id = client_id})
+        end
+
+    end
+
+    if client and client.server_capabilities.documentFormattingProvider then
+        -- Fallback to common standards if the server doesn't explicitly advertise its size
+        vim.bo[bufnr].formatexpr = "v:lua.vim.lsp.formatexpr()"
+
+    end
+
+
+    kmap('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to description" })
+    kmap('n', 'gr', vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" })
+    kmap('n', '<leader>ga', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Actions" })
+    kmap('v', '<leader>ga', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Actions" })
+
+    kmap('n', 'gep', function()
+        vim.diagnostic.jump({ count = -1, float = true })
+    end, { buffer = bufnr, desc = "Previous Diagnostic" })
+
+    kmap('n', 'gen', function()
+        vim.diagnostic.jump({ count = 1, float = true })
+    end, { buffer = bufnr, desc = "Next Diagnostic" })
+
+    if client.name == 'clangd' then
+        kmap('n', '<leader>sw', '<cmd>ClangdSwitchSourceHeader<cr>', { buffer = bufnr, desc = "Switch Header/Source" })
+    end
+
+    kmap('n', '<leader>fm', function() vim.lsp.buf.format { async = true } end, { buffer = bufnr, desc = "Format Code" })
+    kmap('v', '<leader>fm', ":lua vim.lsp.buf.format()<CR>", { buffer = bufnr, desc = "Range Format Code" })
+
+    kmap('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename Symbol" })
+    kmap('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Docs" })
+
+    kmap('n', 'gqp', '<cmd>cprev<cr>', { desc = "Previous Quickfix" })
+    kmap('n', 'gqn', '<cmd>cnext<cr>', { desc = "Next Quickfix" })
+end
 })
 
+-- --- Global LSP Utilities & Overrides ---
 local lsp_util = vim.lsp.util
 local old_make_position_params = lsp_util.make_position_params
 
--- duplicate-set
+-- Fixed: Neovim 0.11 encoding fallback patch
 lsp_util.make_position_params = function(window, offset_encoding)
-    -- If window is nil or invalid, default to current window (0)
     if not window or type(window) ~= "number" then
         window = 0
     end
-    -- Neovim 0.11 requires offset_encoding; default to utf-16 if missing
     return old_make_position_params(window, offset_encoding or "utf-16")
 end
 
-for _, lsp in ipairs(lsps) do
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+-- --- Server Initialization Loop ---
+-- Assumes a global or local table 'lsps' exists above this chunk
+for _, lsp in ipairs(lsps or {}) do
     vim.lsp.config(lsp, {})
     vim.lsp.enable(lsp)
 end
 
+-- --- Filetype Configurations & Globals ---
 vim.filetype.add {
     pattern = {
         ['openapi.*%.ya?ml'] = 'yaml.openapi',

@@ -14,7 +14,7 @@ require("oil").setup({
 
       keymaps = {
           ["<leader>h"] = { "actions.parent", mode = "n" },
-          ["<leader>r>"] = "actions.refresh",
+          ["<leader>r"] = "actions.refresh",
           ["<leader>l"] = { "actions.select", mode = "n" },
           ["gcd"] = { "actions.tcd", mode = "n" },
           ["<esc><esc>"] = { "actions.close", mode = "n" },
