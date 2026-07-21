@@ -1,13 +1,54 @@
 vim.pack.add({
     'https://github.com/neovim/nvim-lspconfig',
     'https://github.com/mason-org/mason.nvim',
-    'https://github.com/nvim-mini/mini.completion.git',
     'https://github.com/b0o/SchemaStore.nvim',
     'https://github.com/folke/lazydev.nvim',
+
+    'https://github.com/saghen/blink.lib',
+    'https://github.com/Saghen/blink.cmp',
+    'https://github.com/L3MON4D3/LuaSnip.git'
 })
 
 require("mason").setup()
-require("mini.completion").setup()
+-- require("blink.cmp").setup()
+local cmp = require('blink.cmp')
+cmp.build():pwait()
+
+cmp.setup({
+
+    completion = {
+        list = { selection = { preselect = false, auto_insert = true } }
+
+    },
+    sources = {
+        -- Remove 'buffer' if you don't want text completions, by default it's only enabled when LSP returns no items
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
+    },
+
+    -- Use a preset for snippets, check the snippets documentation for more information
+    snippets = { preset = 'luasnip' },
+
+    -- Experimental signature help support
+    signature = { enabled = true },
+
+    keymap = {
+        preset = 'default',
+
+        ['<Up>'] = { 'select_prev', 'fallback' },
+        ['<Down>'] = { 'select_next', 'fallback' },
+
+        -- disable a keymap from the preset
+        ['<C-e>'] = false, -- or {}
+
+        -- show with a list of providers
+        ['<C-space>'] = { function(cmp) cmp.show({ providers = { 'snippets' } }) end },
+
+        ['<CR>'] = { 'select_and_accept', 'fallback' },
+        ['<Tab>'] = { 'select_and_accept', 'snippet_forward', 'fallback' },
+    }
+
+})
+
 require("lazydev").setup({
     library = {
         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
@@ -18,7 +59,7 @@ require("lazydev").setup({
 
 local lsps = {
     'clangd',
-    'cmake',
+    'neocmake',
     'lua_ls',
     'vtsls',
     -- 'yamlls',

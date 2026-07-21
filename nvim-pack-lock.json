@@ -4,6 +4,10 @@
       "rev": "e30b7f2008e52442154b66f7c519bfd2f1e32acb",
       "src": "https://github.com/numToStr/Comment.nvim"
     },
+    "LuaSnip": {
+      "rev": "0abc8f390b278c3b4aabc4c004ac8a088b65cf24",
+      "src": "https://github.com/L3MON4D3/LuaSnip.git"
+    },
     "SchemaStore.nvim": {
       "rev": "4f1c58a59d3a4da095743dd6f04b73caa0cefc3d",
       "src": "https://github.com/b0o/SchemaStore.nvim"
@@ -19,6 +23,14 @@
     "autosave": {
       "rev": "979b6c82f60cfa80f4cf437d77446d0ded0addf0",
       "src": "https://github.com/pocco81/auto-save.nvim"
+    },
+    "blink.cmp": {
+      "rev": "0f54bd78892f587db4dcf100a23eaddfc2a9df7d",
+      "src": "https://github.com/Saghen/blink.cmp"
+    },
+    "blink.lib": {
+      "rev": "5876dd95deeb70aadbe9f1c0b7117a135061cdac",
+      "src": "https://github.com/saghen/blink.lib"
     },
     "carbon-now.nvim": {
       "rev": "2440d007633a5d436ebc9d2b5ef74e4fddd83f15",
@@ -63,10 +75,6 @@
     "mason.nvim": {
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
       "src": "https://github.com/mason-org/mason.nvim"
-    },
-    "mini.completion": {
-      "rev": "4f94cafdeef02bf3ef9997cd6862658801caa22c",
-      "src": "https://github.com/nvim-mini/mini.completion.git"
     },
     "nvim-dap": {
       "rev": "9e848e09a697ee95302a3ef2dd43fd6eb709e570",
