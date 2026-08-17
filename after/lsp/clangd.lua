@@ -30,6 +30,9 @@ return {
 
     -- Enable inlay hints
     "--inlay-hints",
+
+    -- Use ram for pre-compiled headers
+"--pch-storage=memory",
   },
   filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
   root_markers = {

@@ -17,12 +17,35 @@ cmp.build():pwait()
 cmp.setup({
 
     completion = {
-        list = { selection = { preselect = false, auto_insert = true } }
+        list = { selection = { preselect = false, auto_insert = true } },
+        menu = {
+            -- Delay trigger slightly so fast typing ignores LSP lookups
+            auto_show_delay_ms = 100,
+        },
+        keyword = {
+            -- Don't trigger LSP completion on single-letter keystrokes
+            range = 'prefix',
+        },
+        trigger = {
+            prefetch_on_insert = false,
+            -- Show completions only after typing 2 characters (stops 1-char freezes)
+            show_on_keyword = true,
+            show_on_trigger_character = true,
+        },
 
     },
+
     sources = {
         -- Remove 'buffer' if you don't want text completions, by default it's only enabled when LSP returns no items
         default = { 'lsp', 'path', 'snippets', 'buffer' },
+        providers = {
+            lsp = {
+                name = 'LSP',
+                module = 'blink.cmp.sources.lsp',
+                -- Give clangd requests lower priority if it takes too long
+                score_offset = 90,
+            },
+        },
     },
 
     -- Use a preset for snippets, check the snippets documentation for more information
@@ -86,7 +109,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
         if not client then return end
 
-        vim.notify('Attached ' .. client.name .. ' to buffer ' .. bufnr)
+        -- vim.notify('Attached ' .. client.name .. ' to buffer ' .. bufnr)
+
+        -- If the buffer isn't a physical local file, stop the client for this buffer
+
+        local real_file = vim.uri_from_bufnr(bufnr):sub(1, 7) == "file://"
+
+        if not real_file then
+            vim.lsp.buf_detach_client(bufnr, client_id)
+            return
+        end
 
         local navic = require("nvim-navic")
         if client.server_capabilities.documentSymbolProvider then
@@ -105,6 +137,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
             kmap("n", "<leader>ih", "<cmd>lua LSPToggleInLayHint()<cr>", { silent = true })
             function LSPToggleInLayHint()
                 vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ 0 }), { 0 })
+                if vim.lsp.inlay_hint.is_enabled({ 0 }) then
+                    vim.notify("Inlay Hints: on")
+                else
+                    vim.notify("Inlay Hints: off")
+                end
             end
 
             if client:supports_method("textDocument/onTypeFormatting") then
@@ -237,3 +274,5 @@ vim.g.autotag_filetype_dict = {
     typescriptreact = "typescript",
     javascriptreact = "javascript"
 }
+
+vim.lsp.log.set_level(vim.lsp.log.levels["OFF"])
