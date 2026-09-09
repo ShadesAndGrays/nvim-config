@@ -26,13 +26,14 @@ kmap("n", "j", "g<down>", no_opts)            -- move up even if line wrapped
 kmap("n", "<m-up>", "<cmd> move -2 <cr>", opts) -- move line up
 kmap("n", "<m-down>", "<cmd> move +1<cr>", opts) -- move line down
 -- toggle auto save
-kmap("n", "<leader>s", ":astoggle<cr>", {})
-kmap("n", "<leader>u", ":undotreetoggle<cr>", opts)
+kmap("n", "<leader>s", ":ASToggle<cr>", {})
 --kmap ("v", "<m-up>", "<cmd> '<,'> move -2 <cr>",opts) -- move selecion up
 --kmap ("v", "<m-down>", "<cmd> '<,'> move +1 <cr>",opts) -- move selecion up
 
 kmap("n", "<c-k>", "3<c-y>", opts) -- scroll down more quickly
 kmap("n", "<c-j>", "3<c-e>", opts) -- scroll up more quickly
+kmap("n", "<c-h>", "5zh", opts)  -- scroll view left
+kmap("n", "<c-l>", "5zl", opts)  -- scroll view right
 
 -- kmap("n", "<tab><tab>", "<cmd> tabnew<cr>",opts) -- create new tab
 -- kmap("n", "<tab>p", "<cmd> tabprevious<cr>",opts) -- create new tab
@@ -45,9 +46,6 @@ kmap("i", "jk", '<esc>', opts) --exit input mode :)
 kmap('t', '<esc><esc>', [[<c-\><c-n>]], opts)
 
 
--- toggle terminal
-kmap('n', '<s-c>', '<cmd>ToggleTerm direction=horizontal<cr>')
-kmap('i', '<m-c>', '<cmd>ToggleTerm direction=float<cr>')
 
 kmap('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
 kmap('n', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
@@ -64,8 +62,6 @@ kmap('n', [[<leader>-]], '<cmd>belowright sp<cr>', opts)
 kmap('n', "<leader>n", "<cmd>bn<cr>", opts)
 kmap('n', "<leader>p", "<cmd>bp<cr>", opts)
 
-kmap("n", "<leader>ft", ":NvimTreeToggle<cr>", opts)
-kmap("n", "<leader>fo", "<cmd>Oil<cr>", { desc = "open parent directory" })
 
 
 function whereami()
@@ -86,17 +82,17 @@ kmap("n", "q:", "<nop>")
 
 -- Persistence
 
--- load the session for the current directory
-vim.keymap.set("n", "<leader>qs", function() require("persistence").load() end)
-
--- select a session to load
-vim.keymap.set("n", "<leader>qS", function() require("persistence").select() end)
-
--- load the last session
-vim.keymap.set("n", "<leader>ql", function() require("persistence").load({ last = true }) end)
-
--- stop Persistence => session won't be saved on exit
-vim.keymap.set("n", "<leader>qd", function() require("persistence").stop() end)
+-- -- load the session for the current directory
+-- vim.keymap.set("n", "<leader>qs", function() require("persistence").load() end)
+--
+-- -- select a session to load
+-- vim.keymap.set("n", "<leader>qS", function() require("persistence").select() end)
+--
+-- -- load the last session
+-- vim.keymap.set("n", "<leader>ql", function() require("persistence").load({ last = true }) end)
+--
+-- -- stop Persistence => session won't be saved on exit
+-- vim.keymap.set("n", "<leader>qd", function() require("persistence").stop() end)
 
 
 

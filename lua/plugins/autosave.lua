@@ -1,12 +1,12 @@
-
 vim.pack.add({ { src= "https://github.com/pocco81/auto-save.nvim" }})
 
     opts = {
+        enabled = true,
         trigger_events = {"InsertLeave", "TextChanged"},
         condition = function(buf)
             local fn = vim.fn
             local utils = require("auto-save.utils.data")
-            local excluded_filetypes = { "lua", "gitcommit", "oil" }
+            local excluded_filetypes = { "lua", "gitcommit", "oil","help" }
 
             if
                 fn.getbufvar(buf, "&modifiable") == 1 and

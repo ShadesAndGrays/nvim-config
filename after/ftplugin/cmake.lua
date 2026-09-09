@@ -1,0 +1,42 @@
+-- local cmake_bin_dir = "C:\\msys64\\clang64\\bin"
+-- if not vim.env.PATH:find(cmake_bin_dir, 1, true) then
+--     vim.env.PATH = cmake_bin_dir .. ";" .. vim.env.PATH
+-- end
+--
+--
+-- -- local capabilities = require('blink.cmp').get_lsp_capabilities()
+-- -- capabilities.textDocument.completion.completionItem.snippetSupport = true
+--
+--  local capabilities = vim.lsp.protocol.make_client_capabilities()
+--
+-- -- Enable snippet capability for LSP completions
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
+--
+--  local has_blink, blink = pcall(require, "blink.cmp")
+-- if has_blink then
+--   capabilities = blink.get_lsp_capabilities(capabilities)
+-- end
+--
+-- vim.lsp.start({
+--     name = "neocmake",
+--     capabilities = capabilities,
+--     cmd = {
+--         "neocmakelsp", "stdio"
+--     },
+--     filetypes = {
+--         "cmake",
+--     },
+--     root_markers = {
+--         ".neocmake.toml",
+--         ".git",
+--         "build",
+--         "cmake",
+--     },
+--     -- single_file_support = true,
+--     init_options = {
+--         format = { enable = true },
+--         lint = { enable = true },
+--         scan_cmake_in_package = true,
+--         semantic_token = true
+--     },
+-- })

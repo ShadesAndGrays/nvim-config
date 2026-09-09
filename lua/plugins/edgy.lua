@@ -40,6 +40,17 @@ opts.bottom = {
                 .api.nvim_win_get_config(win).relative == ""
         end,
     },
+
+    {
+        ft = "help",
+        size = { height = 0.5, width = 0.3 },
+        -- wo = { winfixheight = true },
+        filter = function(buf)
+            return vim.bo
+                [buf].buftype == "help"
+        end,
+    },
+
 }
 opts.right = {
     {
@@ -50,15 +61,6 @@ opts.right = {
         size = { width = 30 },
     },
 
-    {
-        ft = "help",
-        size = { height = 0.5, width = 0.3 },
-        wo = { winfixheight = true },
-        filter = function(buf)
-            return vim.bo
-                [buf].buftype == "help"
-        end,
-    },
 }
 vim.list_extend(opts.right, {
     { ft = "dapui_scopes",      title = "Scopes",      size = { height = 0.4 },  wo = { winfixheight = true } },

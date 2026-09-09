@@ -1,5 +1,8 @@
 local title = "Godot Server"
 
+-- C:\Users\work\scoop\shims\nvim.exe
+-- --server \\\\.\\pipe\\godot.pipe --remote-send "<C-\><C-N>:silent exe 'cd  {project}' |:silent exe 'drop ' fnameescape('{file}') | call cursor({line},{col}) | :NeovideFocus<CR>"
+
 local function launch_server()
 
     if vim.fn.has('win32') then
@@ -25,3 +28,15 @@ end
 
 vim.api.nvim_create_user_command('GodotServer', godot_server, {})
 vim.api.nvim_create_user_command('GodotServerForce', launch_server, {})
+
+
+ vim.api.nvim_create_autocmd("FileType", {
+    pattern = "gdscript",
+    callback = function()
+        -- Fallback filetype assignment just in case
+        vim.bo.filetype = "gdscript"
+        
+        -- Explicitly start Neovim's built-in tree-sitter highlighter
+        pcall(vim.treesitter.start)
+    end,
+})

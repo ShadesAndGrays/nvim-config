@@ -3,7 +3,7 @@ local capabilities = require('blink.cmp').get_lsp_capabilities()
 return {
   capabilities = capabilities,
   cmd = {
-    "clangd",
+    "C:/msys64/clang64/bin/clangd",
     -- Background indexing: Allows clangd to index your code in the background
     "--background-index",
     
@@ -44,7 +44,7 @@ return {
   },
   -- Explicitly defining capabilities ensures features like snippets and inlay hints work perfectly
   init_options = {
-    fallbackFlags = { "-std=c++20" }, -- Default fallback standard if compile_commands.json is missing
+    fallbackFlags = { "-std=c++23" }, -- Default fallback standard if compile_commands.json is missing
     clangdFileStatus = true,         -- Provides status updates (e.g., "Indexing...") to your statusline
   },
 }

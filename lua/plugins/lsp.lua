@@ -1,3 +1,18 @@
+vim.lsp.log.set_level(vim.lsp.log.levels["OFF"])
+
+vim.api.nvim_create_user_command("LspLogTrace", function()
+    vim.lsp.log.set_level(vim.lsp.log.levels["TRACE"])
+end, {})
+
+vim.api.nvim_create_user_command("LspLogOff", function()
+    vim.lsp.log.set_level(vim.lsp.log.levels["OFF"])
+end, {})
+
+
+vim.api.nvim_create_user_command("LspLog", function()
+    vim.cmd('tabnew ' .. vim.lsp.log.get_filename())
+end, {})
+
 vim.pack.add({
     'https://github.com/neovim/nvim-lspconfig',
     'https://github.com/mason-org/mason.nvim',
@@ -9,12 +24,14 @@ vim.pack.add({
     'https://github.com/L3MON4D3/LuaSnip.git'
 })
 
-require("mason").setup()
+require("mason").setup({})
 -- require("blink.cmp").setup()
 local cmp = require('blink.cmp')
 cmp.build():pwait()
 
 cmp.setup({
+
+    fuzzy = { implementation = "prefer_rust_with_warning" },
 
     completion = {
         list = { selection = { preselect = false, auto_insert = true } },
@@ -37,7 +54,7 @@ cmp.setup({
 
     sources = {
         -- Remove 'buffer' if you don't want text completions, by default it's only enabled when LSP returns no items
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        default = { 'lsp', 'path', 'snippets' },
         providers = {
             lsp = {
                 name = 'LSP',
@@ -83,6 +100,7 @@ require("lazydev").setup({
 local lsps = {
     'clangd',
     'neocmake',
+    -- 'cmake',
     'lua_ls',
     'vtsls',
     -- 'yamlls',
@@ -95,8 +113,9 @@ local lsps = {
     'csharp_ls',
     -- 'cssls',
     -- 'tailwindcss',
-    'pyright',
+    'basedpyright',
     -- 'glsl_analyzer',
+    'slangd',
     'ols',
     'rust_analyzer'
 }
@@ -120,8 +139,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
             return
         end
 
-        local navic = require("nvim-navic")
-        if client.server_capabilities.documentSymbolProvider then
+        local  has_navic, navic = pcall(require,"nvim-navic")
+        if client.server_capabilities.documentSymbolProvider and has_navic then
             navic.attach(client, bufnr)
         end
 
@@ -136,10 +155,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
             kmap('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to description" })
             kmap("n", "<leader>ih", "<cmd>lua LSPToggleInLayHint()<cr>", { silent = true })
             function LSPToggleInLayHint()
-                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ 0 }), { 0 })
-                if vim.lsp.inlay_hint.is_enabled({ 0 }) then
+                if not vim.lsp.inlay_hint.is_enabled({ 0 }) then
+                    vim.lsp.inlay_hint.enable(true, { 0 })
                     vim.notify("Inlay Hints: on")
                 else
+                    vim.lsp.inlay_hint.enable(false, { 0 })
                     vim.notify("Inlay Hints: off")
                 end
             end
@@ -180,6 +200,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end
 
         vim.api.nvim_create_autocmd("CursorHold", {
+            group = vim.api.nvim_create_augroup("lsp_hover_diagnostic", { clear = false }),
+            buffer = args.buf,
             callback = function()
                 vim.diagnostic.open_float(nil, { focusable = false })
             end,
@@ -263,16 +285,14 @@ for _, lsp in ipairs(lsps or {}) do
 end
 
 -- --- Filetype Configurations & Globals ---
-vim.filetype.add {
-    pattern = {
-        ['openapi.*%.ya?ml'] = 'yaml.openapi',
-        ['openapi.*%.json'] = 'json.openapi',
-    },
-}
-
-vim.g.autotag_filetype_dict = {
-    typescriptreact = "typescript",
-    javascriptreact = "javascript"
-}
-
-vim.lsp.log.set_level(vim.lsp.log.levels["OFF"])
+-- vim.filetype.add {
+--     pattern = {
+--         ['openapi.*%.ya?ml'] = 'yaml.openapi',
+--         ['openapi.*%.json'] = 'json.openapi',
+--     },
+-- }
+--
+-- vim.g.autotag_filetype_dict = {
+--     typescriptreact = "typescript",
+--     javascriptreact = "javascript"
+-- }

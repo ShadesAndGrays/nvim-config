@@ -22,18 +22,30 @@ dapview.setup()
 --     },
 -- })
 --
+
+local ucrt_bin = "C:/msys64/ucrt64/bin"
+local clang_bin = "C:/msys64/clang64/bin"
+
+dap.adapters.lldb = {
+    type = "executable",
+    command = clang_bin .. "/lldb-dap.exe",
+}
+
 dap.adapters.gdb = {
     type = "executable",
-    command = "gdb",
+    command = ucrt_bin .. "/gdb.exe",
     args = {
         "--interpreter=dap",
         "--eval-command", "set print pretty on",
     }
 }
 
+
+
+
 dap.configurations.cpp = {
     {
-        name = "Launch file",
+        name = "Launch file (gdb)",
         type = "gdb",
         request = "launch",
         program = function()
@@ -43,8 +55,34 @@ dap.configurations.cpp = {
         cwd = function()
             return vim.fn.getcwd():gsub("\\", "/")
         end,
+
+        env = {
+            PATH = ucrt_bin .. ";" .. vim.fn.getenv("PATH"),
+        },
         stopAtBeginningOfMainSubprogram = true,
     },
+    {
+        name = "Launch file (lldb)",
+        type = "lldb",
+        request = "launch",
+        program = function()
+            local path = vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "\\", "file")
+            return path:gsub("\\", "/")
+        end,
+        cwd = function()
+            return vim.fn.getcwd():gsub("\\", "/")
+        end,
+
+        env = {
+            PATH = clang_bin .. ";" .. vim.fn.getenv("PATH"),
+        },
+
+        initCommands = {
+            'settings set target.process.use-new-stdio true'
+        },
+        stopOnEntry = false,
+    }
+
 }
 
 -- Very specific filtering for gdb

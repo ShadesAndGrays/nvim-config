@@ -5,23 +5,26 @@ vim.pack.add({
     "https://github.com/SmiteshP/nvim-navic",
 
 })
+
+local glow_color = "#33ccaa"
+
 local lualine_opts = {
     options = {
         globalstatus = true,
-        theme = "iceberg_dark",
+        theme = "gruvbox",
         icons_enabled = true,
         disabled_filetypes = {
-            winbar = { 'NvimTree', 'dashboard','lazy', 'trouble', 'toggleterm','help','dap-view','dap-repl' }, -- Don't show path on these
+            winbar = { 'NvimTree', 'dashboard', 'lazy', 'trouble', 'toggleterm', 'help', 'dap-view', 'dap-repl', 'oil' }, -- Don't show path on these
         },
     },
     winbar = {
         lualine_c = {
             {
                 'filename',
-                path=0,
+                path = 0,
                 shorting_target = 40,
                 color = function(section)
-                    return { fg = vim.bo.modified and '#aa3355' or '#33aa88' , bg = nil , gui= 'bold'}
+                    return { fg = vim.bo.modified and '#aa3355' or '#33aa88', bg = nil, gui = 'bold' }
                 end,
                 fmt = function(name)
                     local devicons = require("nvim-web-devicons")
@@ -38,9 +41,9 @@ local lualine_opts = {
             },
             {
                 'filename',
-                path=1,
+                path = 1,
                 shorting_target = 40,
-                color = { fg = '#404063', bg = nil }
+                color = { fg = '#808080', bg = nil }
             },
             {
                 function()
@@ -49,7 +52,7 @@ local lualine_opts = {
                 cond = function()
                     return require("nvim-navic").is_available()
                 end,
-                color = { fg = "#00f2ff" }, -- Your high-contrast glow
+                color = {fg = glow_color}--{ fg = "#00f2ff" }, -- Your high-contrast glow
             },
         },
     },
@@ -57,7 +60,7 @@ local lualine_opts = {
         lualine_c = {
             {
                 'filename',
-                path=0,
+                path = 0,
                 shorting_target = 40,
             }
 
@@ -73,10 +76,10 @@ local lualine_opts = {
             },
         },
 
-        lualine_b = {{
+        lualine_b = { {
             'buffers',
-            show_filename_only=true,
-            hide_filename_extension= true,
+            show_filename_only = true,
+            hide_filename_extension = true,
             show_modified_status = true,
 
             mode = 2, -- 0: Shows buffer name
@@ -96,10 +99,10 @@ local lualine_opts = {
                 fzf = 'FZF',
                 NvimTree = 'NvimTree',
             }
-        }},
+        } },
         lualine_z = {
 
-            {'tabs'},
+            { 'tabs' },
             {
                 'searchcount',
                 maxcount = 999,
@@ -110,21 +113,21 @@ local lualine_opts = {
     sections = {
         lualine_c = {
             {
-                function ()
-                    local cwd=  " 󱉭 " .. vim.fn.fnamemodify(vim.fn.getcwd(), ':~')
+                function()
+                    local cwd = " 󱉭 " .. vim.fn.fnamemodify(vim.fn.getcwd(), ':~')
                     return cwd
                 end,
-                color = { fg = "#00f2ff" }, -- Your high-contrast glow
+                color = { fg = glow_color }, -- Your high-contrast glow
             }
         },
-        lualine_x ={
+        lualine_x = {
             'lsp_status',
             'encoding',
             'fileformat',
             'filetype'
         }
     },
-    extensions = {'toggleterm' , 'oil' , 'nvim-tree'}
+    extensions = { 'toggleterm', 'oil', 'nvim-tree' }
 }
 
 local navic_opts = {
@@ -175,4 +178,3 @@ local navic_opts = {
 
 require("nvim-navic").setup(navic_opts)
 require("lualine").setup(lualine_opts)
-
