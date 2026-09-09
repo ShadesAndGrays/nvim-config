@@ -1,298 +1,251 @@
-vim.lsp.log.set_level(vim.lsp.log.levels["OFF"])
+return {
+    -- 1. Snippet Engine
+    {
+        "L3MON4D3/LuaSnip",
+        dependencies = { "rafamadriz/friendly-snippets" },
+        config = function()
+            require("luasnip.loaders.from_lua").lazy_load({ paths = "./snippets" })
+            require("luasnip.loaders.from_vscode").lazy_load()
 
-vim.api.nvim_create_user_command("LspLogTrace", function()
-    vim.lsp.log.set_level(vim.lsp.log.levels["TRACE"])
-end, {})
-
-vim.api.nvim_create_user_command("LspLogOff", function()
-    vim.lsp.log.set_level(vim.lsp.log.levels["OFF"])
-end, {})
-
-
-vim.api.nvim_create_user_command("LspLog", function()
-    vim.cmd('tabnew ' .. vim.lsp.log.get_filename())
-end, {})
-
-vim.pack.add({
-    'https://github.com/neovim/nvim-lspconfig',
-    'https://github.com/mason-org/mason.nvim',
-    'https://github.com/b0o/SchemaStore.nvim',
-    'https://github.com/folke/lazydev.nvim',
-
-    'https://github.com/saghen/blink.lib',
-    'https://github.com/Saghen/blink.cmp',
-    'https://github.com/L3MON4D3/LuaSnip.git'
-})
-
-require("mason").setup({})
--- require("blink.cmp").setup()
-local cmp = require('blink.cmp')
-cmp.build():pwait()
-
-cmp.setup({
-
-    fuzzy = { implementation = "prefer_rust_with_warning" },
-
-    completion = {
-        list = { selection = { preselect = false, auto_insert = true } },
-        menu = {
-            -- Delay trigger slightly so fast typing ignores LSP lookups
-            auto_show_delay_ms = 100,
-        },
-        keyword = {
-            -- Don't trigger LSP completion on single-letter keystrokes
-            range = 'prefix',
-        },
-        trigger = {
-            prefetch_on_insert = false,
-            -- Show completions only after typing 2 characters (stops 1-char freezes)
-            show_on_keyword = true,
-            show_on_trigger_character = true,
-        },
-
-    },
-
-    sources = {
-        -- Remove 'buffer' if you don't want text completions, by default it's only enabled when LSP returns no items
-        default = { 'lsp', 'path', 'snippets' },
-        providers = {
-            lsp = {
-                name = 'LSP',
-                module = 'blink.cmp.sources.lsp',
-                -- Give clangd requests lower priority if it takes too long
-                score_offset = 90,
-            },
-        },
-    },
-
-    -- Use a preset for snippets, check the snippets documentation for more information
-    snippets = { preset = 'luasnip' },
-
-    -- Experimental signature help support
-    signature = { enabled = true },
-
-    keymap = {
-        preset = 'default',
-
-        ['<Up>'] = { 'select_prev', 'fallback' },
-        ['<Down>'] = { 'select_next', 'fallback' },
-
-        -- disable a keymap from the preset
-        ['<C-e>'] = false, -- or {}
-
-        -- show with a list of providers
-        ['<C-space>'] = { function(cmp) cmp.show({ providers = { 'snippets' } }) end },
-
-        ['<CR>'] = { 'select_and_accept', 'fallback' },
-        ['<Tab>'] = { 'select_and_accept', 'snippet_forward', 'fallback' },
-    }
-
-})
-
-require("lazydev").setup({
-    library = {
-        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-        { path = "lazy.nvim",          words = { "LazySpec" } },
-    }
-
-})
-
-local lsps = {
-    'clangd',
-    'neocmake',
-    -- 'cmake',
-    'lua_ls',
-    'vtsls',
-    -- 'yamlls',
-    'gdscript',
-    -- html stuff
-    -- 'eslint',
-    -- 'html',
-    -- 'jsonls',
-    'gopls',
-    'csharp_ls',
-    -- 'cssls',
-    -- 'tailwindcss',
-    'basedpyright',
-    -- 'glsl_analyzer',
-    'slangd',
-    'ols',
-    'rust_analyzer'
-}
-
-vim.api.nvim_create_autocmd('LspAttach', {
-    callback = function(args)
-        local client_id = args.data.client_id
-        local client = vim.lsp.get_client_by_id(client_id)
-        local bufnr = args.buf
-
-        if not client then return end
-
-        -- vim.notify('Attached ' .. client.name .. ' to buffer ' .. bufnr)
-
-        -- If the buffer isn't a physical local file, stop the client for this buffer
-
-        local real_file = vim.uri_from_bufnr(bufnr):sub(1, 7) == "file://"
-
-        if not real_file then
-            vim.lsp.buf_detach_client(bufnr, client_id)
-            return
-        end
-
-        local  has_navic, navic = pcall(require,"nvim-navic")
-        if client.server_capabilities.documentSymbolProvider and has_navic then
-            navic.attach(client, bufnr)
-        end
-
-
-        -- --- Keymaps ---
-        local kmap = vim.keymap.set
-
-        if client:supports_method("textDocument/inlayHint") then
-            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-            -- toggle inlayhints
-
-            kmap('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to description" })
-            kmap("n", "<leader>ih", "<cmd>lua LSPToggleInLayHint()<cr>", { silent = true })
-            function LSPToggleInLayHint()
-                if not vim.lsp.inlay_hint.is_enabled({ 0 }) then
-                    vim.lsp.inlay_hint.enable(true, { 0 })
-                    vim.notify("Inlay Hints: on")
-                else
-                    vim.lsp.inlay_hint.enable(false, { 0 })
-                    vim.notify("Inlay Hints: off")
+            local ls = require("luasnip")
+            vim.keymap.set({ "i", "s" }, "<A-k>", function()
+                if ls.expand_or_jumpable() then
+                    ls.expand_or_jump()
                 end
-            end
+            end, { silent = true })
 
-            if client:supports_method("textDocument/onTypeFormatting") then
-                vim.lsp.on_type_formatting.enable(true, { client_id = client_id })
-            end
-        end
+            vim.keymap.set({ "i", "s" }, "<A-j>", function()
+                if ls.jumpable(-1) then
+                    ls.jump(-1)
+                end
+            end, { silent = true })
+        end,
+    },
 
-        if client and client.server_capabilities.documentFormattingProvider then
-            -- Fallback to common standards if the server doesn't explicitly advertise its size
-            vim.bo[bufnr].formatexpr = "v:lua.vim.lsp.formatexpr()"
-        end
+    -- 2. Completion Engine
+    {
+        "hrsh7th/nvim-cmp",
+        dependencies = {
+            "hrsh7th/cmp-nvim-lsp",                -- LSP source
+            "hrsh7th/cmp-buffer",                  -- Buffer source
+            "hrsh7th/cmp-path",                    -- Filesystem path source
+            "hrsh7th/cmp-nvim-lsp-signature-help", -- Signature help source
+            "saadparwaiz1/cmp_luasnip",            -- Snippet source
+        },
+        config = function()
+            local cmp = require("cmp")
+            local luasnip = require("luasnip")
 
-        if client:supports_method("textDocument/semanticTokens/full") then
-            client.server_capabilities.semanticTokensProvider = {
-                full = true,
-                legend = client.server_capabilities.semanticTokensProvider.legend
-            }
-        end
 
-        if client:supports_method("textDocument/documentHighlight") then
-            vim.api.nvim_create_augroup("lsp_document_highlight", { clear = false })
+            -- Define the toggle function
+            local cmp_enabled = true
+            vim.api.nvim_create_user_command('CmpToggle', function()
+                if cmp_enabled then
+                    require('cmp').setup({ completion = { autocomplete = false } })
+                    vim.notify("Cmp Autocomplete: OFF")
+                else
+                    require('cmp').setup({ completion = { autocomplete = { require('cmp.types').cmp.TriggerEvent.TextChanged } } })
+                    vim.notify("Cmp Autocomplete: ON")
+                end
+                cmp_enabled = not cmp_enabled
+            end, {})
 
-            -- Highlight matching symbols when cursor holds still
-            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-                group = "lsp_document_highlight",
-                buffer = args.buf,
-                callback = vim.lsp.buf.document_highlight,
-            })
+            -- Optional: Map it to a key (e.g., <leader>ta for "Toggle Auto")
+            vim.keymap.set('n', '<leader>ta', '<cmd>CmpToggle<cr>', { desc = 'Toggle CMP Autocomplete' })
 
-            -- Clear the highlights when the cursor moves again
-            vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-                group = "lsp_document_highlight",
-                buffer = args.buf,
-                callback = vim.lsp.buf.clear_references,
-            })
-        end
-
-        vim.api.nvim_create_autocmd("CursorHold", {
-            group = vim.api.nvim_create_augroup("lsp_hover_diagnostic", { clear = false }),
-            buffer = args.buf,
-            callback = function()
-                vim.diagnostic.open_float(nil, { focusable = false })
-            end,
-        })
-
-        kmap('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to description" })
-        kmap('n', 'gr', vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" })
-        kmap('n', '<leader>ga', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Actions" })
-        kmap('v', '<leader>ga', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Actions" })
-
-        kmap('n', 'gep', function()
-            vim.diagnostic.jump({ count = -1, float = true })
-        end, { buffer = bufnr, desc = "Previous Diagnostic" })
-
-        kmap('n', 'gen', function()
-            vim.diagnostic.jump({ count = 1, float = true })
-        end, { buffer = bufnr, desc = "Next Diagnostic" })
-
-        if client.name == 'clangd' then
-            kmap('n', '<leader>sw', '<cmd>ClangdSwitchSourceHeader<cr>',
-                { buffer = bufnr, desc = "Switch Header/Source" })
-        end
-
-        kmap('n', '<leader>fm', function() vim.lsp.buf.format { async = true } end,
-            { buffer = bufnr, desc = "Format Code" })
-        kmap('v', '<leader>fm', ":lua vim.lsp.buf.format()<CR>", { buffer = bufnr, desc = "Range Format Code" })
-
-        kmap('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename Symbol" })
-        kmap('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Docs" })
-
-        kmap('n', 'gqp', '<cmd>cprev<cr>', { desc = "Previous Quickfix" })
-        kmap('n', 'gqn', '<cmd>cnext<cr>', { desc = "Next Quickfix" })
-
-        vim.diagnostic.config({
-            -- virtual_text = {
-            --     spacing = 4,
-            --     prefix = "●", -- Subtle bullet point instead of long text strings
-            -- },
-            -- virtual_lines = true,
-            severity_sort = true,   -- Always prioritize showing Errors above Warnings
-            float = {
-                border = "rounded", -- Adds a beautiful clean border to popup diagnostic windows
-                source = "if_many", -- Shows exactly which tool (clangd, clang-tidy) threw the error
-                header = "",
-                max_width = 80,
-            },
-            signs = {
-                text = {
-                    [vim.diagnostic.severity.ERROR] = "󰅚 ",
-                    [vim.diagnostic.severity.WARN]  = "󰀪 ",
-                    [vim.diagnostic.severity.HINT]  = "󰌶 ",
-                    [vim.diagnostic.severity.INFO]  = "󱀕 ",
+            cmp.setup({
+                snippet = {
+                    expand = function(args)
+                        luasnip.lsp_expand(args.body)
+                    end,
                 },
-            },
+                formatting = {
+                    fields = { 'abbr', 'kind', 'menu' }, -- Order of items in the popup
+                    format = function(entry, vim_item)
+                        -- Set the fixed width for the 'abbr' (the main text)
+                        local fixed_width = 25
 
-        })
-    end
+                        -- If the content is longer than fixed_width, truncate it
+                        if string.len(vim_item.abbr) > fixed_width then
+                            vim_item.abbr = string.sub(vim_item.abbr, 1, fixed_width) .. "..."
+                        end
+
+                        -- Remove the 'menu' (e.g., [LSP], [Buffer]) to save even more width
+                        vim_item.menu = ""
+
+                        return vim_item
+                    end,
+                },
+                window = {
+
+                    completion = {
+
+                        -- This is the key: 'side_padding' helps, but 'col_offset' can move it.
+                        -- To force it ABOVE, we use the 'documentation' max_height trick or
+                        -- the 'scrolloff' settings.
+
+                        -- Most reliable 2026 method for nvim-cmp:
+                        scrollbar = true,
+                        max_height = 10,
+                        max_width = 5,
+                        side_padding = 1,
+                        col_offset = 2, -- Move it slightly left so it doesn't cover the first char
+                    },
+                    documentation = {
+                        scrollbar = true,
+                        max_height = 15,
+                        max_width = 50,
+                        side_padding = 1,
+                        col_offset = 2, -- Move it slightly left so it doesn't cover the first char
+                    },
+                },
+                view = {
+                    auto_open = true,
+                    entries = {
+                        name = 'custom',
+                        selection_order = 'near_cursor',
+                        follow_cursor = true
+                    },
+                    docs = {
+                        auto_open = true
+                    }
+                },
+                mapping = cmp.mapping.preset.insert({
+                    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                    ['<C-Space>'] = cmp.mapping.complete(), -- Use Space or O
+                    ['<C-e>'] = cmp.mapping.abort(),
+                    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+                }),
+                sources = cmp.config.sources({
+                    { name = 'nvim_lsp' },
+                    { name = 'nvim_lsp_signature_help' },                 -- This shows function arguments as you type
+                    { name = 'luasnip' },
+                    { name = 'lazydev',                group_index = 0 }, -- For Neovim API
+                }, {
+                    { name = 'buffer' },
+                    { name = 'path' },
+                })
+            })
+        end,
+    },
 
 
-})
+    -- 3. LSP Configuration (The Missing Piece)
+    {
+        "neovim/nvim-lspconfig",
+        config = function()
+            local capabilities = require('cmp_nvim_lsp').default_capabilities()
+            capabilities.textDocument.completion.completionItem.snippetSupport = true
+            local lsps = {
+                'clangd',
+                'cmake',
+                'lua_ls',
+                'vtsls',
+                'yamlls',
+                'gdscript',
+                'gopls',
+                -- html stuff
+                'eslint',
+                'html',
+                'jsonls',
+                'gopls',
+                'csharp_ls',
+                'cssls',
+                'tailwindcss',
+                'pyright',
+                --'pylsp',
+                'rust_analyzer' -- forgive me lord
+            }
 
--- --- Global LSP Utilities & Overrides ---
-local lsp_util = vim.lsp.util
-local old_make_position_params = lsp_util.make_position_params
+            vim.api.nvim_create_autocmd('LspAttach', {
+                callback = function(args)
+                    local client = vim.lsp.get_client_by_id(args.data.client_id);
+                    local bufnr = args.buf
+                    -- print('Attached'.. client .. "on" .. bufnr)
+                    local navic = require("nvim-navic")
+                    if client and client.server_capabilities.documentSymbolProvider then
+                        navic.attach(client, bufnr)
+                    end
 
--- Fixed: Neovim 0.11 encoding fallback patch
-lsp_util.make_position_params = function(window, offset_encoding)
-    if not window or type(window) ~= "number" then
-        window = 0
-    end
-    return old_make_position_params(window, offset_encoding or "utf-16")
-end
+                    Kmap('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to description" })
+                    Kmap('n', 'gr', vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" })
+                    Kmap('n', '<leader>ga', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Actions" })
+                    -- Jump to previous error/warning
+                    Kmap('n', 'gep', function()
+                        vim.diagnostic.jump({ count = -1, float = true })
+                    end, { buffer = bufnr, desc = "Previous Diagnostic" })
 
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
+                    -- Jump to next error/warning
+                    Kmap('n', 'gen', function()
+                        vim.diagnostic.jump({ count = 1, float = true })
+                    end, { buffer = bufnr, desc = "Next Diagnostic" })
 
--- --- Server Initialization Loop ---
--- Assumes a global or local table 'lsps' exists above this chunk
-for _, lsp in ipairs(lsps or {}) do
-    vim.lsp.config(lsp, {})
-    vim.lsp.enable(lsp)
-end
+                    if client and client.name == 'clangd' then
+                        Kmap('n', '<leader>sw', '<cmd>LSPClangdSwitchSourceHeader<cr>',
+                            { buffer = bufnr, desc = "Switch Header/Source" })
+                    end
+                    Kmap('n', '<leader>fm', function() vim.lsp.buf.format { async = true } end,
+                        { buffer = bufnr, desc = "Format Code" })
+                    Kmap('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename Symbol" })
+                    Kmap('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Docs" })
 
--- --- Filetype Configurations & Globals ---
--- vim.filetype.add {
---     pattern = {
---         ['openapi.*%.ya?ml'] = 'yaml.openapi',
---         ['openapi.*%.json'] = 'json.openapi',
---     },
--- }
---
--- vim.g.autotag_filetype_dict = {
---     typescriptreact = "typescript",
---     javascriptreact = "javascript"
--- }
+                    Kmap('n', 'gqp', '<cmd>cprev<cr>', { desc = "Previous Quickfix" })
+                    Kmap('n', 'gqn', '<cmd>cnext<cr>', { desc = "Next Quickfix" })
+                end
+
+            })
+
+            local lsp_util = vim.lsp.util
+            local old_make_position_params = lsp_util.make_position_params
+
+            -- duplicate-set
+            lsp_util.make_position_params = function(window, offset_encoding)
+                -- If window is nil or invalid, default to current window (0)
+                if not window or type(window) ~= "number" then
+                    window = 0
+                end
+                -- Neovim 0.11 requires offset_encoding; default to utf-16 if missing
+                return old_make_position_params(window, offset_encoding or "utf-16")
+            end
+
+            for _, lsp in ipairs(lsps) do
+                vim.lsp.config(lsp, { capabilities = capabilities })
+                vim.lsp.enable(lsp)
+            end
+
+            -- vim.lsp.enable('vacuum')
+
+            vim.filetype.add {
+                pattern = {
+                    ['openapi.*%.ya?ml'] = 'yaml.openapi',
+                    ['openapi.*%.json'] = 'json.openapi',
+                },
+            }
+
+            vim.g.autotag_filetype_dict = {
+                typescriptreact = "typescript",
+                javascriptreact = "javascript"
+            }
+        end,
+    },
+
+    {
+        "folke/lazydev.nvim",
+        ft = "lua",
+        opts = {
+            library = {
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+                { path = "lazy.nvim",          words = { "LazySpec" } },
+            }
+        }
+    },
+    {
+        "mason-org/mason.nvim",
+        opts = {}
+    },
+    {
+        "b0o/SchemaStore.nvim",
+        lazy = true, -- Only loads when called by jsonls
+    }
+}

@@ -3,117 +3,83 @@ vim.g.maplocalleader = ","
 
 
 local no_opts = {}
-local opts = { silent = true }
+local opts = {silent = true}
 local disable = '<nop>'
 
 
-local kmap = vim.keymap.set
+Kmap = vim.keymap.set
 -- old type
--- kmapv = vim.api.nvim_set_keymap
+-- Kmapv = vim.api.nvim_set_keymap
 
-function test()
-    print("test1")
+function Test()
+	print("test1")
 end
 
-kmap("n", "<leader>`", "<cmd>lua test()<cr>", no_opts)
--- kmap('n', '<cr>', 'm`o<esc>``',opts)
--- kmap('n', '<s-cr>', 'm`o<esc>``',opts)
-kmap("n", "<up>", "g<up>", no_opts)           -- move up even if line wrapped
-kmap("n", "<down>", "g<down>", no_opts)       -- move down even if line wrapped
-kmap("n", "k", "g<up>", no_opts)              -- move up even if line wrapped
-kmap("n", "j", "g<down>", no_opts)            -- move up even if line wrapped
 
-kmap("n", "<m-up>", "<cmd> move -2 <cr>", opts) -- move line up
-kmap("n", "<m-down>", "<cmd> move +1<cr>", opts) -- move line down
--- toggle auto save
-kmap("n", "<leader>s", ":ASToggle<cr>", {})
---kmap ("v", "<m-up>", "<cmd> '<,'> move -2 <cr>",opts) -- move selecion up
---kmap ("v", "<m-down>", "<cmd> '<,'> move +1 <cr>",opts) -- move selecion up
+Kmap("n","<Leader>`", "<cmd>lua Test()<CR>",no_opts )
+Kmap('n', '<CR>', 'm`o<Esc>``',opts)
+Kmap('n', '<S-CR>', 'm`O<Esc>``',opts)
+Kmap("n", "<Up>","g<Up>",no_opts) -- move up even if line wrapped
+Kmap("n", "<Down>","g<Down>",no_opts) -- move down even if line wrapped
+Kmap("n", "k","g<Up>",no_opts) -- move up even if line wrapped
+Kmap("n", "j","g<Down>",no_opts) -- move up even if line wrapped
 
-kmap("n", "<c-k>", "3<c-y>", opts) -- scroll down more quickly
-kmap("n", "<c-j>", "3<c-e>", opts) -- scroll up more quickly
-kmap("n", "<c-h>", "5zh", opts)  -- scroll view left
-kmap("n", "<c-l>", "5zl", opts)  -- scroll view right
+Kmap("n", "<M-Up>","<cmd> move -2 <CR>",opts)-- Move line up
+Kmap("n","<M-Down>","<cmd> move +1<CR>",opts)-- Move line down
+-- Toggle Auto save
+Kmap("n", "<leader>s", ":ASToggle<CR>", {})
+Kmap("n","<leader>u", ":UndotreeToggle<CR>",opts)
+--Kmap ("v", "<M-Up>", "<cmd> '<,'> move -2 <CR>",opts) -- move selecion up
+--Kmap ("v", "<M-Down>", "<cmd> '<,'> move +1 <CR>",opts) -- move selecion up
 
--- kmap("n", "<tab><tab>", "<cmd> tabnew<cr>",opts) -- create new tab
--- kmap("n", "<tab>p", "<cmd> tabprevious<cr>",opts) -- create new tab
--- kmap("n", "<tab>n", "<cmd> tabnext<cr>",opts) -- create new tab
--- kmap("n", "<tab>q", "<cmd> tabclose<cr>",opts) -- create new tab
--- kmap("n", "<tab>", "<c-w>", opts)
+Kmap("n", "<C-k>", "3<C-y>",opts) -- scroll down more quickly
+Kmap("n", "<C-j>", "3<C-e>",opts) -- scroll up more quickly
 
-kmap("i", "jk", '<esc>', opts) --exit input mode :)
+Kmap("n", "<tab><tab>", "<cmd> tabnew<CR>",opts) -- create new tab
+Kmap("n", "<tab>p", "<cmd> tabprevious<CR>",opts) -- create new tab
+Kmap("n", "<tab>n", "<cmd> tabnext<CR>",opts) -- create new tab
+Kmap("n", "<tab>q", "<cmd> tabclose<CR>",opts) -- create new tab
+-- Kmap("n", "<tab>", "<C-w>", opts)
 
-kmap('t', '<esc><esc>', [[<c-\><c-n>]], opts)
+Kmap("i", "jk", '<Esc>',opts) --exit input mode :)
 
-
-
-kmap('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-kmap('n', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+Kmap('t', '<Esc><Esc>', [[<C-\><C-n>]], opts)
 
 
+-- Toggle Terminal
+Kmap('n', '<S-c>', '<cmd>ToggleTerm direction=horizontal<cr>')
+Kmap('t', '<S-c>', [[<C-\><C-n><cmd>ToggleTerm direction=horizontal<cr>]])
+Kmap('i', '<M-c>', '<cmd>ToggleTerm direction=horizontal<cr>')
+
+Kmap('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+Kmap('n', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 
 
-kmap('n', [[<leader>\]], '<cmd>belowright vsp<cr>', opts)
-kmap('n', [[<leader>-]], '<cmd>belowright sp<cr>', opts)
+Kmap('n',[[<leader>\]],'<cmd>belowright vsp<CR>',opts)
+Kmap('n',[[<leader>-]],'<cmd>belowright sp<CR>',opts)
 
 
--- kmap('n',"<leader>d",'<cmd>dashboard<cr>',opts)
+-- Kmap('n',"<leader>d",'<cmd>Dashboard<CR>',opts)
 
-kmap('n', "<leader>n", "<cmd>bn<cr>", opts)
-kmap('n', "<leader>p", "<cmd>bp<cr>", opts)
+Kmap('n',"<leader>n","<cmd>bn<CR>",opts)
+Kmap('n',"<leader>p","<cmd>bp<CR>",opts)
 
+Kmap("n","<leader>ft", ":NvimTreeToggle<CR>",opts)
+Kmap("n","<leader>fo", "<CMD>Oil<CR>",{ desc = "Open Parent Directory"})
 
+-- Toggle inlayhints
+Kmap("n","<leader>ih", "<cmd>lua TOGGLE_IN_LAY()<CR>",opts)
+function TOGGLE_IN_LAY()
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({0}),{0}) 
+end
 
-function whereami()
+function WHEREAMI()
     require('scratch-buffer').open()
-    vim.api.nvim_put({ vim.uv.cwd() }, "", true, true)
+    vim.api.nvim_put({vim.uv.cwd()},"",true,true)
 end
 
-kmap("n", "<c-w>z", "<cmd>zenmode<cr>", opts)
+Kmap("n","<C-w>z", "<cmd>ZenMode<CR>",opts)
 
--- kmap("n","<leader>fa" ,"<cmd>avantetoggle<cr>", opts)
+Kmap("n","<leader>fa" ,"<cmd>AvanteToggle<CR>", opts)
 
-kmap("n", "q:", "<nop>")
-
--- kmap("n","gd","<cmd>DiffviewOpen HEAD^<cr>",opts)
---
--- kmap("n","gx","<cmd>DiffviewClose<cr>",opts)
-
-
--- Persistence
-
--- -- load the session for the current directory
--- vim.keymap.set("n", "<leader>qs", function() require("persistence").load() end)
---
--- -- select a session to load
--- vim.keymap.set("n", "<leader>qS", function() require("persistence").select() end)
---
--- -- load the last session
--- vim.keymap.set("n", "<leader>ql", function() require("persistence").load({ last = true }) end)
---
--- -- stop Persistence => session won't be saved on exit
--- vim.keymap.set("n", "<leader>qd", function() require("persistence").stop() end)
-
-
-
-if vim.g.neovide then
-    -- Initial scale factor
-    vim.g.neovide_scale_factor = 1.0
-
-    -- Zoom In
-    vim.keymap.set("n", "<C-=>", function()
-        vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1
-    end)
-
-    -- Zoom Out
-    vim.keymap.set("n", "<C-->", function()
-        if vim.g.neovide_scale_factor > 0.3 then
-            vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1
-        end
-    end)
-
-    -- Reset Zoom
-    vim.keymap.set("n", "<C-0>", function()
-        vim.g.neovide_scale_factor = 1.0
-    end)
-end
+Kmap("n", "q:", "<nop>")
