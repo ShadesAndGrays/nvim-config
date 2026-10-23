@@ -1,5 +1,6 @@
 require("config.autocommands.godot")
 require("config.autocommands.notify")
+require("config.autocommands.clang")
 -- local telescope = require("telescope")
 -- local plenary = require("plenary")
 
@@ -27,6 +28,8 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
         require("plugins.toggleterm")
         require("plugins.dashboard")
         require("plugins.flatten")
+        require("plugins.agent")
+        require("plugins.readme")
     end
 })
 vim.api.nvim_create_autocmd("VimEnter", {
@@ -34,13 +37,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
     callback = function()
         require("plugins.oil")
         require("plugins.telescope")
-    end,
-})
-
-vim.api.nvim_create_autocmd("BufEnter", {
-    pattern = "*.md", -- Match all buffers (or specify a pattern like "*.lua" or "*.py")
-    callback = function()
-        require("plugins.readme")
     end,
 })
 
@@ -98,3 +94,14 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
     pattern = "*.v",
     command = "set filetype=vlang",
 })
+
+-- Create a command :Scratch
+vim.api.nvim_create_user_command('Scratch', function()
+    vim.cmd('enew')
+    vim.bo.buftype = 'nofile'
+    vim.bo.bufhidden = 'hide'
+    vim.bo.swapfile = false
+end, {})
+
+-- Optional: Map it to a key combination (e.g., <leader>bs)
+vim.keymap.set('n', '<leader>bs', ':Scratch<CR>', { desc = 'Open scratchpad' })

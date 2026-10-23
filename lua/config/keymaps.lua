@@ -35,10 +35,10 @@ kmap("n", "<c-j>", "3<c-e>", opts) -- scroll up more quickly
 kmap("n", "<c-h>", "5zh", opts)  -- scroll view left
 kmap("n", "<c-l>", "5zl", opts)  -- scroll view right
 
--- kmap("n", "<tab><tab>", "<cmd> tabnew<cr>",opts) -- create new tab
--- kmap("n", "<tab>p", "<cmd> tabprevious<cr>",opts) -- create new tab
--- kmap("n", "<tab>n", "<cmd> tabnext<cr>",opts) -- create new tab
--- kmap("n", "<tab>q", "<cmd> tabclose<cr>",opts) -- create new tab
+kmap("n", "<tab><tab>", "<cmd> tabnew<cr>",opts) -- create new tab
+kmap("n", "<tab>p", "<cmd> tabprevious<cr>",opts) -- create new tab
+kmap("n", "<tab>n", "<cmd> tabnext<cr>",opts) -- create new tab
+kmap("n", "<tab>q", "<cmd> tabclose<cr>",opts) -- create new tab
 -- kmap("n", "<tab>", "<c-w>", opts)
 
 kmap("i", "jk", '<esc>', opts) --exit input mode :)

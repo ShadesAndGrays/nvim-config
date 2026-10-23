@@ -28,12 +28,12 @@ return {
     -- Fallback style: If no .clang-format is found, default to Google, LLVM, Mozilla, etc.
     "--fallback-style=LLVM",
 
-    -- Enable inlay hints
-    "--inlay-hints",
-
     -- Use ram for pre-compiled headers
-"--pch-storage=memory",
+    "--pch-storage=memory",
+
+"--query-driver=**em++*,**emcc*,**c++*"
   },
+
   filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
   root_markers = {
     ".git",

@@ -107,7 +107,7 @@ kmap("n", "<leader>fg", function()
 end, { desc = "Multi Grep" })
 
 vim.api.nvim_create_user_command("ColorSchemePick", function()
-    builtin.colorscheme({
+    load_telescope(); require('telescope.builtin').colorscheme({
         enable_preview = true,
         ignore_builtins = true
     })

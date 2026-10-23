@@ -2,13 +2,16 @@
 vim.pack.add({
     "https://github.com/rcarriga/nvim-notify",
 })
+require("notify").setup({
+    background_colour = "#000000",
+})
 
 -- Color scheme
 vim.pack.add({
     { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
-    -- "https://github.com/rebelot/kanagawa.nvim.git",
-    -- "https://github.com/navarasu/onedark.nvim",
-    -- "https://github.com/tiagovla/tokyodark.nvim",
+    "https://github.com/rebelot/kanagawa.nvim.git",
+    "https://github.com/navarasu/onedark.nvim",
+    "https://github.com/tiagovla/tokyodark.nvim",
     "https://github.com/datsfilipe/vesper.nvim"
 
 })
@@ -22,7 +25,7 @@ require("config.options")         -- global options
 require("config.autocommands")    -- global autocommands
 require("config.neovide").setup() -- detect and enable neovim options
 
-vim.cmd('colorscheme vesper')
+vim.cmd('colorscheme catppuccin')
 
 
 -- switch to powershell for windows

@@ -43,7 +43,7 @@ dap.adapters.gdb = {
 
 
 
-dap.configurations.cpp = {
+dap.configurations.c = {
     {
         name = "Launch file (gdb)",
         type = "gdb",
@@ -84,6 +84,11 @@ dap.configurations.cpp = {
     }
 
 }
+
+dap.configurations.cpp = dap.configurations.c
+dap.configurations.odin = dap.configurations.c
+
+
 
 -- Very specific filtering for gdb
 local notify_plugin = require("notify")
