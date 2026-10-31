@@ -64,6 +64,8 @@ kmap('n', "<leader>p", "<cmd>bp<cr>", opts)
 
 kmap("n", "<leader>ft", "<cmd>Neotree toggle right dir=./ <cr> ", opts)
 
+kmap("n", "<leader>dfo", "<cmd>DiffviewOpen <cr> ", opts)
+kmap("n", "<leader>dfc", "<cmd>DiffviewClose <cr> ", opts)
 
 
 function whereami()
