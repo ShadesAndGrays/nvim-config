@@ -34,14 +34,18 @@ local function enable_clang64()
     return false
 end
 
-
-vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
-    callback = function()
-        if vim.fs.root(vim.fn.getcwd(), cpp_markers) then
+local function try_activate()
+    if vim.fs.root(vim.fn.getcwd(), cpp_markers) then
             local enabled = enable_clang64()
             if enabled then
                 vim.notify("Detected Clang Environment")
             end
         end
-    end,
+end
+
+
+vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
+    callback = try_activate
 })
+
+vim.api.nvim_create_user_command("CheckClangEnv", try_activate, {})
