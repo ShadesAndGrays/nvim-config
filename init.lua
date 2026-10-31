@@ -2,17 +2,27 @@
 vim.pack.add({
     "https://github.com/rcarriga/nvim-notify",
 })
-require("notify").setup({
-    background_colour = "#000000",
-})
+local notify = require("notify")
 
+notify.setup({
+    animate=true,
+    top_down = false, -- stack from the bottom instead of the top
+    stages = "fade",  -- or "fade_in_slide_out" (default), "slide", "static"
+    timeout = 3000,
+    background_colour = "#000000",
+    merge_duplicates = true,
+    on_open = function(win)
+        vim.wo[win].winblend = 30 -- 0 = opaque, 100 = fully transparent
+    end,
+})
 -- Color scheme
 vim.pack.add({
     { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
     "https://github.com/rebelot/kanagawa.nvim.git",
     "https://github.com/navarasu/onedark.nvim",
     "https://github.com/tiagovla/tokyodark.nvim",
-    "https://github.com/datsfilipe/vesper.nvim"
+    "https://github.com/datsfilipe/vesper.nvim",
+    "https://github.com/mofiqul/vscode.nvim"
 
 })
 
@@ -25,7 +35,7 @@ require("config.options")         -- global options
 require("config.autocommands")    -- global autocommands
 require("config.neovide").setup() -- detect and enable neovim options
 
-vim.cmd('colorscheme catppuccin')
+vim.cmd('colorscheme vscode')
 
 
 -- switch to powershell for windows

@@ -62,6 +62,8 @@ kmap('n', [[<leader>-]], '<cmd>belowright sp<cr>', opts)
 kmap('n', "<leader>n", "<cmd>bn<cr>", opts)
 kmap('n', "<leader>p", "<cmd>bp<cr>", opts)
 
+kmap("n", "<leader>ft", "<cmd>Neotree toggle right dir=./ <cr> ", opts)
+
 
 
 function whereami()

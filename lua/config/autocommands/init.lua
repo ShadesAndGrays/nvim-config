@@ -35,6 +35,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 vim.api.nvim_create_autocmd("VimEnter", {
     pattern = "*", -- Match all buffers (or specify a pattern like "*.lua" or "*.py")
     callback = function()
+        require("plugins.neo-tree")
         require("plugins.oil")
         require("plugins.telescope")
     end,

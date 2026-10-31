@@ -46,7 +46,7 @@
       "src": "https://github.com/catppuccin/nvim"
     },
     "copilot.lua": {
-      "rev": "82607bbb8528222a9a28bfcab0aceb3a7fed7e85",
+      "rev": "20ffcd5f1c902ad4efddfbe694f4261607fa6dcb",
       "src": "https://github.com/zbirenbaum/copilot.lua"
     },
     "dashboard-nvim": {
@@ -100,6 +100,11 @@
     "mega.logging": {
       "rev": "194ad8c300186e73c3eb1ebeb3ede42eb219be3b",
       "src": "https://github.com/ColinKennedy/mega.logging"
+    },
+    "neo-tree.nvim": {
+      "rev": "f3f3bf73414e400cf9fc13fda50f00404a8f8ab1",
+      "src": "https://github.com/nvim-neo-tree/neo-tree.nvim",
+      "version": "3.0.0 - 4.0.0"
     },
     "nui.nvim": {
       "rev": "10fc361835c856ba4233ef5ea135b919bf3dce97",
@@ -213,6 +218,10 @@
     "vim-fugitive": {
       "rev": "3b753cf8c6a4dcde6edee8827d464ba9b8c4a6f0",
       "src": "https://github.com/tpope/vim-fugitive.git"
+    },
+    "vscode.nvim": {
+      "rev": "6439ed89d0e10193f07e92268a321d7c6f6e93ee",
+      "src": "https://github.com/mofiqul/vscode.nvim"
     }
   }
 }
