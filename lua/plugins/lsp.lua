@@ -24,6 +24,16 @@ vim.pack.add({
     'https://github.com/L3MON4D3/LuaSnip.git'
 })
 
+local ls = require ("luasnip")
+ls.setup({})
+
+require ("luasnip.loaders.from_lua").lazy_load({
+    paths = vim.fn.stdpath("config") .. "/lua/snippets",
+
+})
+
+ls.filetype_extend("cpp",{"c"})
+
 require("mason").setup({})
 -- require("blink.cmp").setup()
 local cmp = require('blink.cmp')
@@ -85,6 +95,7 @@ cmp.setup({
 
         ['<CR>'] = { 'select_and_accept', 'fallback' },
         ['<Tab>'] = { 'select_and_accept', 'snippet_forward', 'fallback' },
+        ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
     }
 
 })
@@ -99,7 +110,7 @@ require("lazydev").setup({
 
 local lsps = {
     'clangd',
-    'neocmake',
+    -- 'neocmake',
     -- 'cmake',
     'lua_ls',
     'vtsls',
