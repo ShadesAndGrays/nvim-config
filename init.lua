@@ -37,6 +37,14 @@ require("config.neovide").setup() -- detect and enable neovim options
 
 vim.cmd('colorscheme vscode')
 
+vim.treesitter.language.register("markdown", "Avante")
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "Avante",
+  callback = function(args)
+    pcall(vim.treesitter.start, args.buf, "markdown")
+  end,
+})
 
 -- switch to powershell for windows
 if _G.IS_WINDOWS then

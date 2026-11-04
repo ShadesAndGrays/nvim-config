@@ -43,7 +43,8 @@ vim.pack.add({
 require('opencode').setup({})
 require("avante").setup({
     provider = "openrouter",
-    mode = "legacy",
+    mode = "agentic",
+
 
     providers = {
         openrouter = {
@@ -55,6 +56,11 @@ require("avante").setup({
                 max_tokens = 20480,
             },
         },
+    },
+    selector = {
+        provider = "telescope",
+        provider_opts = {},
+        exclude_auto_select = {}, -- List of items to exclude from auto selection
     },
     behaviour = {
         auto_suggestions = false,

@@ -45,7 +45,8 @@ end
 
 
 vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
-    callback = try_activate
+    pattern = {"*"},
+    callback =  function() try_activate() end
 })
 
 vim.api.nvim_create_user_command("CheckClangEnv", try_activate, {})
